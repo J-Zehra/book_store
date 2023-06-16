@@ -4,6 +4,12 @@ import ThemeWrapper from "./components/themeWrapper";
 export const metadata = {
   title: "Mema Book Store",
   description: "E-commerce book store. Find your book.",
+  icons:{
+    icon:{
+      url: "/books.png",
+      type: "image/png"
+    }
+  }
 };
 
 export default function RootLayout({

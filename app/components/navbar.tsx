@@ -43,7 +43,7 @@ export default function Navbar() {
           <Stack direction="row" spacing={2} alignItems="center">
             <TextField
               placeholder="Search Books"
-              sx={{ padding: "0" }}
+              sx={{ padding: "0", bgcolor: "primary.50" }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
