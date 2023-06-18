@@ -1,17 +1,10 @@
-import { Button, Icon, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import useApp from "@/hooks/useAppContext";
+import { Stack, Typography } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import React from "react";
 
 export default function Navlinks({ links }: { links: string[] }) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const appContext = useApp();
 
   return (
     <Stack direction="row" spacing={3}>
@@ -21,7 +14,11 @@ export default function Navlinks({ links }: { links: string[] }) {
             return (
               <Link href="/" style={{ textDecoration: "none" }} key={link}>
                 <Typography
-                  color="text.primary"
+                  color={
+                    appContext?.activeNav == "Home"
+                      ? "primary.500"
+                      : "text.primary"
+                  }
                   sx={{
                     ":hover": { color: "primary.500" },
                     transition: "color .3s ease",
