@@ -19,9 +19,8 @@ export default function TextWatermark({
 }) {
   return (
     <Typography
-      className={dancing_script.className}
-      sx={{
-        maxWidth: "25rem",
+    sx={{
+      maxWidth: "25rem",
         textAlign: "center",
         position: "absolute",
         width: "fit-content",
@@ -34,6 +33,7 @@ export default function TextWatermark({
         transform: `rotate(${tilt})`,
         textShadow: "5px 5px 1px rgba(0, 0, 50, .15)",
       }}
+      className={dancing_script.className}
     >
       {quote}
     </Typography>
