@@ -10,6 +10,6 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "unset",
+    fontFamily: "Open Sans, AmaticSC, Dancing Script, sans-serif",
   },
 });
