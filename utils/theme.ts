@@ -9,7 +9,4 @@ export const theme = createTheme({
       default: "#E9EAEB",
     },
   },
-  typography: {
-    fontFamily: "Open Sans, AmaticSC, Dancing Script, sans-serif",
-  },
 });
