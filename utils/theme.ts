@@ -9,4 +9,7 @@ export const theme = createTheme({
       default: "#E9EAEB",
     },
   },
+  typography: {
+    fontFamily: "unset",
+  },
 });

@@ -1,5 +1,5 @@
 import { dancing_script } from "@/utils/font";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
 
 export default function TextWatermark({
@@ -19,8 +19,8 @@ export default function TextWatermark({
 }) {
   return (
     <Typography
-    sx={{
-      maxWidth: "25rem",
+      sx={{
+        maxWidth: "25rem",
         textAlign: "center",
         position: "absolute",
         width: "fit-content",
