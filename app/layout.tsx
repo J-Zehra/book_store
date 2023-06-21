@@ -21,7 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ margin: "0" }} className={open_sans.className}>
+      <body
+        style={{ margin: "0" }}
+        className={open_sans.className}
+      >
         <ThemeWrapper>
           <AppContext>
             <Navbar />

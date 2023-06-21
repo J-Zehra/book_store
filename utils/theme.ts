@@ -9,4 +9,16 @@ export const theme = createTheme({
       default: "#E9EAEB",
     },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
+  },
+  typography: {
+    fontFamily: ["Amatic SC", "Dancing Script", "Open Sans", "sans serif"].join(","),
+  },
 });

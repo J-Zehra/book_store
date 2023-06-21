@@ -9,14 +9,26 @@ import {
   IconButton,
   TextField,
   InputAdornment,
+  MenuItem,
+  Menu,
 } from "@mui/material";
 import Image from "next/image";
 import Navlinks from "./navlinks";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -44,7 +56,7 @@ export default function Navbar() {
             <TextField
               placeholder="Search Books"
               size="medium"
-              sx={{ padding: "0", bgcolor: "rgba(0, 0, 100, .08)", }}
+              sx={{ padding: "0", bgcolor: "rgba(0, 0, 100, .08)" }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -59,7 +71,21 @@ export default function Navbar() {
             <IconButton>
               <NotificationsIcon />
             </IconButton>
-            <Avatar sx={{ bgcolor: "primary.300" }}>J</Avatar>
+            <IconButton onClick={handleClick}>
+              <Avatar sx={{ bgcolor: "primary.300" }}>J</Avatar>
+            </IconButton>
+            <Menu
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              onClick={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Hakdog</MenuItem>
+              <MenuItem onClick={handleClose}>Hakdog</MenuItem>
+              <MenuItem onClick={handleClose}>Hakdog</MenuItem>
+              <MenuItem onClick={handleClose}>Hakdog</MenuItem>
+              <MenuItem onClick={handleClose}>Hakdog</MenuItem>
+            </Menu>
           </Stack>
         </Stack>
       </Container>

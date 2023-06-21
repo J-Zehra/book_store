@@ -6,8 +6,10 @@ import React from "react";
 export default function Navlinks({ links }: { links: string[] }) {
   const appContext = useApp();
 
+  console.log(appContext?.activeNav);
+
   return (
-    <Stack direction="row" spacing={3}>
+    <Stack direction="row" spacing={4}>
       {links.map((link) => {
         switch (link) {
           case "Home":
@@ -15,7 +17,7 @@ export default function Navlinks({ links }: { links: string[] }) {
               <Link href="/" style={{ textDecoration: "none" }} key={link}>
                 <Typography
                   color={
-                    appContext?.activeNav == "Home"
+                    appContext?.activeNav == link
                       ? "primary.500"
                       : "text.primary"
                   }
@@ -36,7 +38,11 @@ export default function Navlinks({ links }: { links: string[] }) {
                 key={link}
               >
                 <Typography
-                  color="text.primary"
+                  color={
+                    appContext?.activeNav == link
+                      ? "primary.500"
+                      : "text.primary"
+                  }
                   sx={{
                     ":hover": { color: "primary.500" },
                     transition: "color .3s ease",
