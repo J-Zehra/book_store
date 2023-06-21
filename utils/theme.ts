@@ -19,6 +19,6 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Amatic SC", "Dancing Script", "Open Sans", "sans serif"].join(","),
-  },
+    fontFamily: "inherit"
+  }
 });
