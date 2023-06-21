@@ -18,6 +18,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          fontFamily: open_sans.style.fontFamily,
+        },
+      },
+    },
   },
   typography: {
     fontFamily: "inherit",

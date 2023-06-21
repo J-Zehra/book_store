@@ -18,6 +18,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useState } from "react";
+import { dancing_script, open_sans } from "@/utils/font";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -72,7 +73,13 @@ export default function Navbar() {
               <NotificationsIcon />
             </IconButton>
             <IconButton onClick={handleClick}>
-              <Avatar sx={{ bgcolor: "primary.300" }}>J</Avatar>
+              <Avatar
+                sx={{
+                  bgcolor: "primary.300",
+                }}
+              >
+                J
+              </Avatar>
             </IconButton>
             <Menu
               open={open}
