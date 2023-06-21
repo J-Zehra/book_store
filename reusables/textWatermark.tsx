@@ -30,7 +30,7 @@ export default function TextWatermark({
         bottom: bottom,
         right: right,
         left: left,
-        opacity: ".25",
+        opacity: ".3",
         transform: `rotate(${tilt})`,
         textShadow: "5px 5px 1px rgba(0, 0, 50, .15)",
       }}
