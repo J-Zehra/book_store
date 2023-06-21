@@ -6,7 +6,6 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import TextWatermark from "@/reusables/textWatermark";
 import Watermarks from "@/components/watermarks";
 import PopularBooks from "@/components/popularBooks";
 
@@ -44,7 +43,7 @@ export default function Home() {
               <Typography
                 fontSize="7rem"
                 color="primary.500"
-                className={amatic_sc.className}
+                fontFamily={amatic_sc.style.fontFamily}
                 sx={{
                   textShadow: "1px 8px 7px rgba(0, 0, 60, .35)",
                   background: "linear-gradient(to bottom, #3f51b5, #5771FF)",

@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material";
 import { indigo } from "@mui/material/colors";
+import { open_sans } from "./font";
 
 export const theme = createTheme({
   palette: {
@@ -19,6 +20,6 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "inherit"
-  }
+    fontFamily: "inherit",
+  },
 });

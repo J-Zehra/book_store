@@ -19,7 +19,7 @@ export default function TextWatermark({
 }) {
   return (
     <Typography
-      className={dancing_script.className}
+      fontFamily={dancing_script.style.fontFamily}
       sx={{
         maxWidth: "25rem",
         textAlign: "center",
