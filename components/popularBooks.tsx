@@ -1,6 +1,8 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Container, Stack, Typography } from "@mui/material";
 import React from "react";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Top1Book from "./top1Book";
+import Image from "next/image";
 
 export default function PopularBooks() {
   return (
@@ -19,7 +21,7 @@ export default function PopularBooks() {
           spacing={2}
           direction="row"
           marginTop="2rem"
-          height="25rem"
+          height="30rem"
         >
           <Top1Book />
           <Stack
@@ -35,13 +37,48 @@ export default function PopularBooks() {
           >
             {[...Array(6)].map((_, index) => {
               return (
-                <Box
+                <Stack
                   key={index}
                   width="10rem"
-                  height="13rem"
+                  height="52%"
                   bgcolor="rgba(0, 0, 0, .1)"
                   borderRadius=".3rem"
-                ></Box>
+                  boxShadow="5px 5px 8px rgba(0, 0, 10, .2)"
+                >
+                  <Box flex={5} padding=".5rem" paddingBottom="0">
+                    <Image
+                      src="/book-cover.png"
+                      width={500}
+                      height={500}
+                      alt="Book Cover"
+                      style={{
+                        width: "100%",
+                        height: "12rem",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        borderRadius: ".3rem",
+                      }}
+                    />
+                  </Box>
+                  <Stack
+                    p=".5rem 1.2rem"
+                    flex={1}
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Typography
+                      color="primary.500"
+                      fontWeight="medium"
+                      fontSize="1rem"
+                    >
+                      $100
+                    </Typography>
+                    <IconButton size="small" color="primary">
+                      <AddShoppingCartIcon />
+                    </IconButton>
+                  </Stack>
+                </Stack>
               );
             })}
           </Stack>
