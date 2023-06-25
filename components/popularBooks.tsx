@@ -6,7 +6,13 @@ import Image from "next/image";
 
 export default function PopularBooks() {
   return (
-    <Box bgcolor="#E9EAEB" sx={{ paddingBlock: "4rem" }}>
+    <Box
+      sx={{
+        zIndex: "2",
+        paddingBlock: "5rem",
+        background: "linear-gradient(to top, #E9EAEB, #f3f3f3)",
+      }}
+    >
       <Container maxWidth="lg">
         <Stack direction="row" spacing={1}>
           <Typography fontSize="1.1rem" fontWeight="bold">
