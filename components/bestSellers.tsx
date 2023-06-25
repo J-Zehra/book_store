@@ -7,10 +7,10 @@ export default function BestSellers() {
     <Box bgcolor="background.default" paddingBottom="2.5rem">
       <Container maxWidth="lg">
         <Stack direction="row" paddingY="2rem" spacing={1}>
-          <Typography fontSize="1.1rem" fontWeight="bold">
+          <Typography fontSize="1.2rem" fontWeight="bold">
             Best
           </Typography>
-          <Typography fontSize="1.1rem" fontWeight="bold" color="primary.500">
+          <Typography fontSize="1.2rem" fontWeight="bold" color="primary.500">
             Sellers
           </Typography>
         </Stack>

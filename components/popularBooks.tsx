@@ -14,10 +14,10 @@ export default function PopularBooks() {
     >
       <Container maxWidth="lg">
         <Stack direction="row" spacing={1}>
-          <Typography fontSize="1.1rem" fontWeight="bold">
+          <Typography fontSize="1.2rem" fontWeight="bold">
             Top 7 Popular
           </Typography>
-          <Typography fontSize="1.1rem" fontWeight="bold" color="primary.500">
+          <Typography fontSize="1.2rem" fontWeight="bold" color="primary.500">
             Books
           </Typography>
         </Stack>
