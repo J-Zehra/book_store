@@ -12,7 +12,7 @@ export default function Top1Book() {
       bgcolor="rgba(0, 0, 0, .1)"
       borderRadius=".3rem"
       width="100%"
-      height="25rem"
+      height="100%"
       direction="row"
       spacing="1rem"
       padding="1rem"

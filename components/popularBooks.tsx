@@ -19,14 +19,32 @@ export default function PopularBooks() {
           spacing={2}
           direction="row"
           marginTop="2rem"
+          height="25rem"
         >
           <Top1Book />
-          <Box
-            bgcolor="rgba(0, 0, 0, .1)"
+          <Stack
             borderRadius=".3rem"
             width="100%"
-            height="25rem"
-          ></Box>
+            height="100%"
+            direction="row"
+            spacing={2}
+            useFlexGap
+            flexWrap="wrap"
+            alignItems="end"
+            justifyContent="end"
+          >
+            {[...Array(6)].map((_, index) => {
+              return (
+                <Box
+                  key={index}
+                  width="10rem"
+                  height="13rem"
+                  bgcolor="rgba(0, 0, 0, .1)"
+                  borderRadius=".3rem"
+                ></Box>
+              );
+            })}
+          </Stack>
         </Stack>
       </Container>
     </Box>
