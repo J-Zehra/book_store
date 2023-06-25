@@ -1,5 +1,6 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import React from "react";
+import Top1Book from "./top1Book";
 
 export default function PopularBooks() {
   return (
@@ -19,17 +20,12 @@ export default function PopularBooks() {
           direction="row"
           marginTop="2rem"
         >
+          <Top1Book />
           <Box
             bgcolor="rgba(0, 0, 0, .1)"
             borderRadius=".3rem"
             width="100%"
-            height="20rem"
-          ></Box>
-          <Box
-            bgcolor="rgba(0, 0, 0, .1)"
-            borderRadius=".3rem"
-            width="100%"
-            height="20rem"
+            height="25rem"
           ></Box>
         </Stack>
       </Container>
