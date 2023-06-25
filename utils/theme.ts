@@ -8,6 +8,7 @@ export const theme = createTheme({
     text: { primary: "#2D2D2D" },
     background: {
       default: "#E9EAEB",
+      paper: "#D3DCE2",
     },
   },
   components: {

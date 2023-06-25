@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function Top1Book() {
   return (
     <Stack
-      bgcolor="rgba(0, 0, 0, .1)"
+      bgcolor="background.paper"
       borderRadius=".3rem"
       width="100%"
       height="100%"

@@ -2,6 +2,8 @@ import AppContext from "@/context/appContext";
 import Navbar from "../components/navbar";
 import ThemeWrapper from "../components/themeWrapper";
 import { open_sans } from "@/utils/font";
+import Footer from "@/components/footer";
+import { Box } from "@mui/material";
 
 export const metadata = {
   title: "Mema Book Store",
@@ -21,14 +23,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        style={{ margin: "0" }}
-        className={open_sans.className}
-      >
+      <body style={{ margin: "0" }} className={open_sans.className}>
         <ThemeWrapper>
           <AppContext>
             <Navbar />
             {children}
+            <Footer />
           </AppContext>
         </ThemeWrapper>
       </body>

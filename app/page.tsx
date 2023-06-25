@@ -2,12 +2,21 @@
 
 import ObserverWrapper from "@/reusables/observerWrapper";
 import { amatic_sc } from "@/utils/font";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import Watermarks from "@/components/watermarks";
 import PopularBooks from "@/components/popularBooks";
+import BestSellers from "@/components/bestSellers";
+import NewReleases from "@/components/newReleases";
 
 export default function Home() {
   return (
@@ -79,8 +88,10 @@ export default function Home() {
             </Stack>
           </Stack>
         </Container>
-        <PopularBooks />
       </Box>
+      <PopularBooks />
+      <NewReleases />
+      <BestSellers />
     </ObserverWrapper>
   );
 }

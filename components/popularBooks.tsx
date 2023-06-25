@@ -8,7 +8,6 @@ export default function PopularBooks() {
   return (
     <Box
       sx={{
-        zIndex: "2",
         paddingBlock: "5rem",
         background: "linear-gradient(to top, #E9EAEB, #f3f3f3)",
       }}
@@ -16,10 +15,10 @@ export default function PopularBooks() {
       <Container maxWidth="lg">
         <Stack direction="row" spacing={1}>
           <Typography fontSize="1.1rem" fontWeight="bold">
-            TOP 7 POPULAR
+            Top 7 Popular
           </Typography>
           <Typography fontSize="1.1rem" fontWeight="bold" color="primary.500">
-            BOOKS
+            Books
           </Typography>
         </Stack>
         <Stack
@@ -47,9 +46,10 @@ export default function PopularBooks() {
                   key={index}
                   width="10rem"
                   height="52%"
-                  bgcolor="rgba(0, 0, 0, .1)"
+                  bgcolor="background.paper"
                   borderRadius=".3rem"
                   boxShadow="5px 5px 8px rgba(0, 0, 10, .2)"
+                  position="relative"
                 >
                   <Box flex={5} padding=".5rem" paddingBottom="0">
                     <Image
@@ -84,6 +84,23 @@ export default function PopularBooks() {
                       <AddShoppingCartIcon />
                     </IconButton>
                   </Stack>
+                  <Box
+                    position="absolute"
+                    width=".6rem"
+                    height=".6rem"
+                    borderRadius="20rem"
+                    p=".4rem"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    top="-.4rem"
+                    right="-.4rem"
+                    fontSize=".8rem"
+                    color="white"
+                    bgcolor="primary.400"
+                  >
+                    {index + 2}
+                  </Box>
                 </Stack>
               );
             })}
