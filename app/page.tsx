@@ -2,14 +2,7 @@
 
 import ObserverWrapper from "@/reusables/observerWrapper";
 import { amatic_sc } from "@/utils/font";
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -46,7 +39,7 @@ export default function Home() {
             spacing={0}
           >
             <Stack spacing={-3} alignItems="center">
-              <Typography fontSize="3.3rem" fontWeight="bold">
+              <Typography fontSize="3.5rem" fontWeight="bold">
                 Where Every Page Sparks
               </Typography>
               <Typography
