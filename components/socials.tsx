@@ -17,7 +17,14 @@ export default function Socials() {
     <Stack direction="row" flex={1} justifyContent="end">
       {socials.map((item) => {
         return (
-          <IconButton sx={{ color: "white" }} key={item.title}>
+          <IconButton
+            sx={{
+              color: "white",
+              ":hover": { color: "primary.300" },
+              transition: "all .3s ease",
+            }}
+            key={item.title}
+          >
             {item.icon}
           </IconButton>
         );

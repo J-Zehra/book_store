@@ -17,7 +17,7 @@ export default function HideOnScroll({
       direction="down"
       in={!trigger}
       style={{
-        backdropFilter: backdropTrigger ? "blur(15px)" : "none",
+        backdropFilter: backdropTrigger ? "blur(25px)" : "none",
       }}
     >
       {children}
