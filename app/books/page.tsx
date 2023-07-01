@@ -1,13 +1,42 @@
 "use client";
 
 import ObserverWrapper from "@/reusables/observerWrapper";
-import { Box } from "@mui/material";
+import { Box, Container, Stack, Pagination, Typography } from "@mui/material";
 import React from "react";
+import Filters from "./components/filters";
+import BookItem from "./components/bookItem";
 
 export default function Books() {
   return (
     <ObserverWrapper name="Books">
-      <Box>Books</Box>
+      <Box paddingY="8rem" bgcolor="background.default">
+        <Container maxWidth="lg">
+          <Filters />
+          <Typography
+            fontSize="1rem"
+            fontWeight="600"
+            sx={{ opacity: ".5" }}
+            marginTop="4rem"
+            marginBottom="1.5rem"
+          >
+            1,234 books available
+          </Typography>
+          <Stack direction="row" useFlexGap flexWrap="wrap" spacing={3}>
+            {[...Array(12)].map((_, index) => {
+              return <BookItem key={index} />;
+            })}
+          </Stack>
+          <Stack alignItems="center" marginTop="2rem">
+            <Pagination
+              count={10}
+              variant="outlined"
+              size="large"
+              shape="rounded"
+              color="primary"
+            />
+          </Stack>
+        </Container>
+      </Box>
     </ObserverWrapper>
   );
 }

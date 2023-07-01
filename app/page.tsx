@@ -50,7 +50,7 @@ export default function Home() {
                   textShadow: "1px 8px 7px rgba(0, 0, 60, .35)",
                   background: "linear-gradient(to bottom, #3f51b5, #5771FF)",
                   backgroundClip: "text",
-                  "-webkit-text-fill-color": "transparent",
+                  WebkitTextFillColor: "tranparent",
                 }}
               >
                 Adventure

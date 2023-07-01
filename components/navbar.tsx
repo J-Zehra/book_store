@@ -62,6 +62,7 @@ export default function Navbar() {
               <TextField
                 placeholder="Search Books"
                 size="medium"
+                variant="outlined"
                 sx={{ padding: "0", bgcolor: "rgba(0, 0, 100, .08)" }}
                 InputProps={{
                   startAdornment: (
@@ -91,6 +92,7 @@ export default function Navbar() {
                 anchorEl={anchorEl}
                 onClose={handleClose}
                 onClick={handleClose}
+                sx={{ width: "30rem" }}
               >
                 <MenuItem onClick={handleClose}>Hakdog</MenuItem>
                 <MenuItem onClick={handleClose}>Hakdog</MenuItem>

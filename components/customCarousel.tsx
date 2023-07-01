@@ -2,7 +2,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Pagination, Navigation } from "swiper";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -13,7 +13,7 @@ export default function CustomCarousel() {
     <Swiper
       pagination={{ dynamicBullets: true }}
       navigation
-      slidesPerView={4}
+      slidesPerView={5}
       centerInsufficientSlides
       modules={[Pagination, Navigation]}
       style={{
@@ -28,14 +28,15 @@ export default function CustomCarousel() {
         return (
           <SwiperSlide key={index}>
             <Stack
-              width="14rem"
-              padding=".8rem"
+              key={index}
+              width="10rem"
+              height="52%"
               bgcolor="background.paper"
               borderRadius=".3rem"
-              boxShadow="2px 2px 10px rgba(0,0, 0, .2)"
-              spacing={1}
+              boxShadow="5px 5px 8px rgba(0, 0, 10, .2)"
+              position="relative"
             >
-              <Box flex={5}>
+              <Box flex={5} padding=".5rem" paddingBottom="0">
                 <Image
                   src="/book-cover.png"
                   width={500}
@@ -43,7 +44,7 @@ export default function CustomCarousel() {
                   alt="Book Cover"
                   style={{
                     width: "100%",
-                    height: "100%",
+                    height: "12rem",
                     objectFit: "cover",
                     objectPosition: "center",
                     borderRadius: ".3rem",
@@ -51,25 +52,22 @@ export default function CustomCarousel() {
                 />
               </Box>
               <Stack
+                p=".5rem 1.2rem"
                 flex={1}
                 direction="row"
-                justifyContent="space-between"
                 alignItems="center"
+                justifyContent="space-between"
               >
                 <Typography
-                  fontSize="1.3rem"
                   color="primary.500"
-                  fontWeight="bold"
+                  fontWeight="medium"
+                  fontSize="1rem"
                 >
-                  $120
+                  $100
                 </Typography>
-                <Button
-                  variant="contained"
-                  sx={{ padding: ".8rem" }}
-                  startIcon={<AddShoppingCartIcon />}
-                >
-                  Add to cart
-                </Button>
+                <IconButton size="small" color="primary">
+                  <AddShoppingCartIcon />
+                </IconButton>
               </Stack>
             </Stack>
           </SwiperSlide>
