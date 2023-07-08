@@ -15,7 +15,7 @@ export default function Books() {
           <Typography
             fontSize="1rem"
             fontWeight="600"
-            sx={{ opacity: ".5" }}
+            sx={{ opacity: ".8" }}
             marginTop="4rem"
             marginBottom="1.5rem"
           >

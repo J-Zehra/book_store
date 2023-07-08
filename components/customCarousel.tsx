@@ -13,7 +13,8 @@ export default function CustomCarousel() {
     <Swiper
       pagination={{ dynamicBullets: true }}
       navigation
-      slidesPerView={5}
+      slidesPerView={6}
+      loop
       centerInsufficientSlides
       modules={[Pagination, Navigation]}
       style={{
@@ -24,7 +25,7 @@ export default function CustomCarousel() {
         paddingBottom: "2.5rem",
       }}
     >
-      {[...Array(6)].map((_, index) => {
+      {[...Array(10)].map((_, index) => {
         return (
           <SwiperSlide key={index}>
             <Stack

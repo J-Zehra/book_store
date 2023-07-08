@@ -1,14 +1,10 @@
+import { Box, Button } from "@mui/material";
 import React from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
-
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-export default function SortFilter() {
+export default function RatingFilter() {
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
-      <Typography sx={{ opacity: ".6" }} fontSize=".9rem">
-        Sort by:
-      </Typography>
+    <Box>
       <Button
         size="large"
         sx={{
@@ -16,11 +12,11 @@ export default function SortFilter() {
           borderColor: "rgba(0, 0, 100, .1)",
           ":hover": { borderColor: "rgba(0, 0, 100, .4)" },
         }}
-        variant="text"
+        variant="outlined"
         endIcon={<KeyboardArrowDownIcon />}
       >
-        Relevance
+        Rating
       </Button>
-    </Stack>
+    </Box>
   );
 }

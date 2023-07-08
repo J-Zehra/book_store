@@ -3,16 +3,14 @@ import {
   Box,
   Typography,
   Divider,
-  Button,
   Paper,
   IconButton,
   Rating,
+  Button,
   styled,
 } from "@mui/material";
 import React from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import LoyaltyIcon from "@mui/icons-material/Loyalty";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Image from "next/image";
 
 const StyledRating = styled(Rating)({
@@ -31,11 +29,12 @@ export default function BookItem() {
         bgcolor="background.paper"
         borderRadius=".3rem"
         width="21rem"
-        height="12rem"
+        height="13rem"
         direction="row"
         spacing="1rem"
         padding=".8rem"
         position="relative"
+        // sx={{ cursor: "pointer" }}
       >
         <Box
           bgcolor="rgba(0, 0, 0, .2)"
@@ -69,10 +68,56 @@ export default function BookItem() {
             justifyContent="space-between"
             spacing="1rem"
           >
-            <Typography color="primary.500" fontSize=".7rem">
+            <Typography fontWeight="500" color="primary.500" fontSize=".7rem">
               JK Rowling
             </Typography>
-            <Typography fontSize=".7rem">January 10, 2022</Typography>
+            <Typography fontWeight="500" fontSize=".7rem">
+              January 10, 2022
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="outlined"
+              sx={{
+                fontSize: ".5rem",
+                borderRadius: "10rem",
+                padding: ".1rem .5rem",
+                bgcolor: "rgba(0, 0, 100, .05)",
+                minWidth: "0",
+                width: "fit-content",
+              }}
+              size="small"
+            >
+              Action
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                fontSize: ".5rem",
+                borderRadius: "10rem",
+                padding: ".1rem .5rem",
+                bgcolor: "rgba(0, 0, 100, .05)",
+                minWidth: "0",
+                width: "fit-content",
+              }}
+              size="small"
+            >
+              Comedy
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                fontSize: ".5rem",
+                borderRadius: "10rem",
+                padding: ".1rem .5rem",
+                bgcolor: "rgba(0, 0, 100, .05)",
+                minWidth: "0",
+                width: "fit-content",
+              }}
+              size="small"
+            >
+              Romance
+            </Button>
           </Stack>
           <Stack height="100%" spacing={1} width="100%">
             <Stack flex={1} justifyContent="end" spacing={1}>

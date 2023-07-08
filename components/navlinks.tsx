@@ -6,8 +6,6 @@ import React from "react";
 export default function Navlinks({ links }: { links: string[] }) {
   const appContext = useApp();
 
-  console.log(appContext?.activeNav);
-
   return (
     <Stack direction="row" spacing={4}>
       {links.map((link) => {

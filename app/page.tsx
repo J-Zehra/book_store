@@ -10,8 +10,14 @@ import Watermarks from "@/components/watermarks";
 import PopularBooks from "@/components/popularBooks";
 import BestSellers from "@/components/bestSellers";
 import NewReleases from "@/components/newReleases";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Home() {
+  const { data, status } = useSession();
+
+  console.log(data, status);
+
   return (
     <ObserverWrapper name="Home">
       <Box height="100vh" position="relative">
@@ -69,14 +75,24 @@ export default function Home() {
                 variant="contained"
                 sx={{ padding: "1rem 1.5rem" }}
               >
-                Browse Books
+                <Link
+                  href="/books"
+                  style={{ textDecoration: "inherit", color: "inherit" }}
+                >
+                  Browse Books
+                </Link>
               </Button>
               <Button
                 startIcon={<DriveFileRenameOutlineIcon />}
                 size="large"
                 variant="outlined"
               >
-                Discover Authors
+                <Link
+                  href="/authors"
+                  style={{ textDecoration: "inherit", color: "inherit" }}
+                >
+                  Discover Authors
+                </Link>
               </Button>
             </Stack>
           </Stack>
