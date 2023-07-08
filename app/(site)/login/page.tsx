@@ -16,16 +16,23 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import React, { useState } from "react";
 import ObserverWrapper from "@/reusables/observerWrapper";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Signin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const route = useRouter();
+  // toast("Logged in!");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await signIn("credentials", { email, password, redirect: false })
       .then((res) => {
         console.log(res);
+        toast("Logged in!");
+        // route.push("/");
       })
       .catch((err) => {
         console.log(err);
@@ -111,6 +118,18 @@ export default function Signin() {
           </Box>
         </Container>
       </Box>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        enableMultiContainer
+      />
     </ObserverWrapper>
   );
 }
