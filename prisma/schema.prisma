@@ -32,7 +32,7 @@ model User {
   name          String?
   penName       String?
   password      String?
-  author        Boolean
+  author        Boolean?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
