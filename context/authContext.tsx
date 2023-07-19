@@ -1,9 +1,16 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import AuthGuard from "./authGuard";
 
-const AuthContext = ({ children }: { children: React.ReactNode }) => (
-  <SessionProvider>{children}</SessionProvider>
-);
-
-export default AuthContext;
+export default function AuthContext({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <SessionProvider>
+      <AuthGuard>{children}</AuthGuard>
+    </SessionProvider>
+  );
+}

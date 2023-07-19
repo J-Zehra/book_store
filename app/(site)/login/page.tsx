@@ -19,6 +19,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 export default function Signin() {
   const [email, setEmail] = useState<string>("");
@@ -43,23 +44,46 @@ export default function Signin() {
     <ObserverWrapper name="Signin">
       <Box
         bgcolor="background.default"
-        sx={{ placeContent: "center", display: "grid" }}
+        sx={{ justifyContent: "center", alignItems: "center", display: "flex" }}
         height="100vh"
+        position="relative"
       >
-        <Container component="main" maxWidth="xs">
+        <Image
+          src="/login-bg.svg"
+          alt="Textured Background"
+          width={1000}
+          height={1000}
+          style={{
+            opacity: ".75",
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+        />
+        <Container
+          component="main"
+          maxWidth="lg"
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+            zIndex: 1
+          }}
+        >
           <Box
             sx={{
-              marginTop: 8,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              width: "27rem",
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              LOGIN YOUR ACCOUNT
             </Typography>
             <Box
               component="form"
@@ -109,7 +133,7 @@ export default function Signin() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="signup" variant="body2">
+                  <Link href="register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

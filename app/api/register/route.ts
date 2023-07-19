@@ -11,10 +11,10 @@ export async function POST(request: Request) {
   const body = await request.json();
 
   // Destructure email and password directly from the body
-  const { name, penName, email, password } = body;
+  const { name, penName, email, password, asAuthor } = body;
 
   // CHECK IF THE INPUT IS NOT EMPTY
-  if (!email || !password || !name || !penName) {
+  if (!email || !password || !name) {
     return new NextResponse("Missing Fields", { status: 400 });
   }
 
@@ -38,6 +38,7 @@ export async function POST(request: Request) {
       penName,
       email,
       password: hashedPassword,
+      author: asAuthor,
     },
   });
 

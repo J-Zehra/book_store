@@ -1,4 +1,12 @@
-import { Box, Button, Divider, Icon, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Icon,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import LinesEllipsis from "react-lines-ellipsis";
@@ -16,7 +24,7 @@ export default function Top1Book() {
       direction="row"
       spacing="1rem"
       padding="1rem"
-      boxShadow="5px 5px 8px rgba(0, 0, 10, .2)"
+      boxShadow="2px 4px 8px rgba(0, 0, 10, .2)"
       position="relative"
     >
       <Box

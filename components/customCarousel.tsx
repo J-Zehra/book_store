@@ -61,12 +61,21 @@ export default function CustomCarousel() {
               >
                 <Typography
                   color="primary.500"
-                  fontWeight="medium"
-                  fontSize="1rem"
+                  fontWeight="500"
+                  fontSize="1.1rem"
                 >
                   $100
                 </Typography>
-                <IconButton size="small" color="primary">
+                <IconButton
+                  size="small"
+                  sx={{
+                    bgcolor: "rgba(0, 0, 100, .1)",
+                    padding: ".6rem",
+                    ":hover": { bgcolor: "rgba(0, 0, 100, .15)" },
+                    transition: "all .3s ease",
+                  }}
+                  color="primary"
+                >
                   <AddShoppingCartIcon />
                 </IconButton>
               </Stack>

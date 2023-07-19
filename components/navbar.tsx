@@ -28,11 +28,14 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { status, data } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const currentPath = usePathname();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,7 +48,7 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
-  return (
+  return currentPath === "/login" || currentPath === "/register" ? null : (
     <HideOnScroll>
       <AppBar
         position="fixed"
@@ -134,6 +137,10 @@ export default function Navbar() {
                 anchorEl={anchorEl}
                 onClose={handleClose}
                 onClick={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
                 PaperProps={{
                   elevation: 5,
                 }}
@@ -141,7 +148,14 @@ export default function Navbar() {
                 <MenuItem onClick={handleClose}>
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Avatar />
-                    <Typography>Profile</Typography>
+                    <Typography color="text.primary">
+                      <Link
+                        href="/profile"
+                        style={{ color: "inherit", textDecoration: "none" }}
+                      >
+                        Profile
+                      </Link>
+                    </Typography>
                   </Stack>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>

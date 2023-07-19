@@ -75,17 +75,20 @@ const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          author: token.author,
         },
       };
     },
     jwt: ({ token, user }) => {
       if (user) {
+        console.log("JWT Callback", { user, token });
+        const u = user as unknown as any;
         return {
           ...token,
           id: user.id,
+          author: u.author,
         };
       }
-      console.log("JWT Callback", { user, token });
       return token;
     },
   },

@@ -7,8 +7,15 @@ import QuickLinks from "./quickLinks";
 import Newsletter from "./newsletter";
 import Image from "next/image";
 import Socials from "./socials";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const currentPath = usePathname();
+
+  if (currentPath === "/login" || currentPath === "/register"){
+    return
+  }
+
   return (
     <>
       <Box paddingY="2rem" bgcolor="background.paper">

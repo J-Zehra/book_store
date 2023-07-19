@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Grid,
   Link,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -16,17 +17,20 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import React, { useState } from "react";
 import ObserverWrapper from "@/reusables/observerWrapper";
 import axios from "axios";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
-export default function Signup() {
+export default function Register() {
   const [name, setName] = useState<string>("");
   const [penName, setPenName] = useState<string>("");
+  const [asAuthor, setAsAuthor] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     axios
-      .post("api/register", { email, password, name, penName })
+      .post("api/register", { email, password, name, penName, asAuthor })
       .then((res) => {
         console.log(res);
       })
@@ -36,35 +40,58 @@ export default function Signup() {
   };
 
   return (
-    <ObserverWrapper name="Signup">
+    <ObserverWrapper name="Register">
       <Box
         bgcolor="background.default"
-        sx={{ placeContent: "center", display: "grid" }}
+        sx={{ justifyContent: "center", alignItems: "center", display: "flex" }}
         height="100vh"
+        position="relative"
       >
-        <Container component="main" maxWidth="xs">
+        <Image
+          src="/register-bg.svg"
+          alt="Textured Background"
+          width={1000}
+          height={1000}
+          style={{
+            opacity: ".75",
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+        />
+        <Container component="main" maxWidth="lg" sx={{ zIndex: 1 }}>
           <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            width="27rem"
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
+            <Typography component="h1" fontWeight="500" variant="h5">
+              REGISTER AN ACCOUNT
             </Typography>
             <Box
               component="form"
               noValidate
               onSubmit={handleSubmit}
-              sx={{ mt: 3 }}
+              sx={{ mt: 5 }}
             >
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={asAuthor}
+                    onChange={(e) => setAsAuthor(e.target.checked)}
+                  />
+                }
+                sx={{ color: "primary.500" }}
+                label="Register as Author"
+              />
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={12} sm={asAuthor ? 6 : 0}>
                   <TextField
                     autoComplete="given-name"
                     name="name"
@@ -76,17 +103,32 @@ export default function Signup() {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="penName"
-                    label="Pen name"
-                    name="penName"
-                    autoComplete="pen-name"
-                    onChange={(e) => setPenName(e.target.value)}
-                  />
-                </Grid>
+                {asAuthor ? (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    component={motion.div}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                    }}
+                    initial={{
+                      opacity: 0,
+                      x: 20,
+                    }}
+                  >
+                    <TextField
+                      required
+                      fullWidth
+                      id="penName"
+                      label="Pen name"
+                      name="penName"
+                      autoComplete="pen-name"
+                      onChange={(e) => setPenName(e.target.value)}
+                    />
+                  </Grid>
+                ) : null}
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -115,7 +157,7 @@ export default function Signup() {
                     control={
                       <Checkbox value="allowExtraEmails" color="primary" />
                     }
-                    label="I want to receive inspiration, marketing promotions and updates via email."
+                    label="I want to receive updates via email."
                   />
                 </Grid>
               </Grid>
@@ -130,14 +172,13 @@ export default function Signup() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="signin" variant="body2">
+                  <Link href="login" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
               </Grid>
             </Box>
           </Box>
-          {/* <Copyright /> */}
         </Container>
       </Box>
     </ObserverWrapper>

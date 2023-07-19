@@ -15,7 +15,6 @@ import Link from "next/link";
 
 export default function Home() {
   const { data, status } = useSession();
-
   console.log(data, status);
 
   return (
@@ -73,6 +72,7 @@ export default function Home() {
                 startIcon={<MenuBookIcon />}
                 size="large"
                 variant="contained"
+                // color="secondary"
                 sx={{ padding: "1rem 1.5rem" }}
               >
                 <Link
