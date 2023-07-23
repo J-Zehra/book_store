@@ -1,4 +1,3 @@
-import useApp from "@/hooks/useAppContext";
 import { Slide, useScrollTrigger } from "@mui/material";
 import React from "react";
 

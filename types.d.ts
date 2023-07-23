@@ -2,7 +2,10 @@ type ChildrenProp = {
   children: React.ReactNode;
 };
 
-type AppContextValues = {
-  activeNav: string;
-  setActiveNav: Dispatch<SetStateAction<string>>;
+type SessionUserData = {
+  name: string;
+  author: boolean;
+  email: string;
+  id: string;
+  image: string;
 };

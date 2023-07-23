@@ -5,22 +5,12 @@ import {
   Divider,
   Paper,
   IconButton,
-  Rating,
   Button,
-  styled,
 } from "@mui/material";
 import React from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/image";
-
-const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": {
-    color: "#1D5CFF",
-  },
-  "& .MuiRating-iconHover": {
-    color: "#ff3d47",
-  },
-});
+import { CustomRating } from "@/reusables/styleRating";
 
 export default function BookItem() {
   return (
@@ -121,13 +111,7 @@ export default function BookItem() {
           </Stack>
           <Stack height="100%" spacing={1} width="100%">
             <Stack flex={1} justifyContent="end" spacing={1}>
-              <StyledRating
-                name="customized-color"
-                defaultValue={2}
-                precision={0.5}
-                readOnly
-                size="small"
-              />
+              <CustomRating size="small" />
               <Stack
                 direction="row"
                 justifyContent="space-between"

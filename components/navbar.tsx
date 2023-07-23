@@ -29,6 +29,7 @@ import Logout from "@mui/icons-material/Logout";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { m } from "framer-motion";
 
 export default function Navbar() {
   const { status, data } = useSession();
@@ -83,9 +84,13 @@ export default function Navbar() {
             <Stack direction="row" spacing={2} alignItems="center">
               <TextField
                 placeholder="Search Books"
-                size="medium"
+                hiddenLabel
+                size="small"
                 variant="outlined"
-                sx={{ padding: "0", bgcolor: "rgba(0, 0, 100, .08)" }}
+                sx={{
+                  padding: "0",
+                  bgcolor: "rgba(0, 0, 100, .02)",
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -106,7 +111,7 @@ export default function Navbar() {
                 <IconButton onClick={handleClick}>
                   <Avatar
                     sx={{
-                      bgcolor: "primary.300",
+                      bgcolor: "primary",
                     }}
                   >
                     {data.user?.name?.at(0)}

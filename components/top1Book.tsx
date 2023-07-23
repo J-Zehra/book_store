@@ -13,6 +13,7 @@ import LinesEllipsis from "react-lines-ellipsis";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import React from "react";
 import Image from "next/image";
+import { CustomRating } from "@/reusables/styleRating";
 
 export default function Top1Book() {
   return (
@@ -79,16 +80,13 @@ export default function Top1Book() {
             />
           </Box>
           <Stack flex={1} justifyContent="end" spacing={1}>
+            <CustomRating size="medium" />
             <Stack
               direction="row"
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography
-                fontWeight="bold"
-                color="primary.500"
-                fontSize="1.6rem"
-              >
+              <Typography fontWeight="bold" color="primary" fontSize="1.6rem">
                 $100
               </Typography>
               <Stack spacing={2.5} direction="row">
@@ -96,21 +94,24 @@ export default function Top1Book() {
                   alignItems="center"
                   justifyContent="center"
                   direction="row"
-                  color="primary.500"
                   spacing={1}
                 >
-                  <LoyaltyIcon />
-                  <Typography fontSize=".8rem">100</Typography>
+                  <LoyaltyIcon sx={{ color: "primary.main" }} />
+                  <Typography fontSize=".8rem" color="primary">
+                    100
+                  </Typography>
                 </Stack>
                 <Stack
                   alignItems="center"
                   justifyContent="center"
                   direction="row"
-                  color="primary.500"
+                  color="primary"
                   spacing={0.8}
                 >
-                  <RemoveRedEyeIcon />
-                  <Typography fontSize=".8rem">100</Typography>
+                  <RemoveRedEyeIcon sx={{ color: "primary.main" }} />
+                  <Typography fontSize=".8rem" color="primary">
+                    100
+                  </Typography>
                 </Stack>
               </Stack>
             </Stack>
@@ -147,7 +148,7 @@ export default function Top1Book() {
         top="-.6rem"
         right="-.6rem"
         color="white"
-        bgcolor="primary.400"
+        bgcolor="primary.main"
       >
         1
       </Box>

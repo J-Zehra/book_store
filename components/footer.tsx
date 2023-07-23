@@ -12,8 +12,8 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
   const currentPath = usePathname();
 
-  if (currentPath === "/login" || currentPath === "/register"){
-    return
+  if (currentPath === "/login" || currentPath === "/register") {
+    return;
   }
 
   return (

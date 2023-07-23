@@ -1,10 +1,14 @@
-import useApp from "@/hooks/useAppContext";
+"use client";
+
+import { activeNavState } from "@/state/atom/navState";
 import { Stack, Typography } from "@mui/material";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import { useRecoilState } from "recoil";
 
 export default function Navlinks({ links }: { links: string[] }) {
-  const appContext = useApp();
+  const [activeNav] = useRecoilState(activeNavState);
 
   return (
     <Stack direction="row" spacing={4}>
@@ -14,11 +18,7 @@ export default function Navlinks({ links }: { links: string[] }) {
             return (
               <Link href="/" style={{ textDecoration: "none" }} key={link}>
                 <Typography
-                  color={
-                    appContext?.activeNav == link
-                      ? "primary.500"
-                      : "text.primary"
-                  }
+                  color={activeNav == link ? "primary" : "text.primary"}
                   sx={{
                     ":hover": { color: "primary.500" },
                     transition: "color .3s ease",
@@ -36,11 +36,7 @@ export default function Navlinks({ links }: { links: string[] }) {
                 key={link}
               >
                 <Typography
-                  color={
-                    appContext?.activeNav == link
-                      ? "primary.500"
-                      : "text.primary"
-                  }
+                  color={activeNav == link ? "primary.500" : "text.primary"}
                   sx={{
                     ":hover": { color: "primary.500" },
                     transition: "color .3s ease",

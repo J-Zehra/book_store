@@ -1,20 +1,21 @@
 "use client";
 
-import { ApplicationContext } from "@/context/appContext";
+import { activeNavState } from "@/state/atom/navState";
 import { useInView } from "framer-motion";
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useRecoilState } from "recoil";
 
 function useObserver(pageName: string) {
-  const context = useContext(ApplicationContext);
+  const [, setActiveNav] = useRecoilState(activeNavState);
 
   const ref = useRef(null);
   const isInView = useInView(ref);
 
   useEffect(() => {
     if (isInView) {
-      context?.setActiveNav(pageName);
+      setActiveNav(pageName);
     }
-  }, [ref, isInView, context, pageName]);
+  }, [ref, isInView, pageName, setActiveNav]);
 
   return { ref };
 }

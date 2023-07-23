@@ -7,13 +7,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Image from "next/image";
+import { CustomRating } from "@/reusables/styleRating";
+import CallMissedOutgoingRoundedIcon from '@mui/icons-material/CallMissedOutgoingRounded';
 
 export default function CustomCarousel() {
   return (
     <Swiper
       pagination={{ dynamicBullets: true }}
       navigation
-      slidesPerView={6}
+      slidesPerView={4}
       loop
       centerInsufficientSlides
       modules={[Pagination, Navigation]}
@@ -30,55 +32,85 @@ export default function CustomCarousel() {
           <SwiperSlide key={index}>
             <Stack
               key={index}
-              width="10rem"
-              height="52%"
+              width="16rem"
+              height="24rem"
               bgcolor="background.paper"
               borderRadius=".3rem"
               boxShadow="5px 5px 8px rgba(0, 0, 10, .2)"
               position="relative"
+              justifyContent="end"
             >
-              <Box flex={5} padding=".5rem" paddingBottom="0">
-                <Image
-                  src="/book-cover.png"
-                  width={500}
-                  height={500}
-                  alt="Book Cover"
-                  style={{
-                    width: "100%",
-                    height: "12rem",
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    borderRadius: ".3rem",
-                  }}
-                />
+              <Image
+                src="/book-cover.png"
+                width={500}
+                height={500}
+                alt="Book Cover"
+                style={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: ".3rem",
+                }}
+              />
+
+              <Box
+                width="100%"
+                height="100%"
+                position="absolute"
+                top={0}
+                right={0}
+                borderRadius=".3rem"
+                sx={{
+                  background:
+                    "linear-gradient(to top, black, rgba(0, 0, 0, 0))",
+                }}
+              />
+
+              <Box p="1rem 1.5rem" zIndex={2}>
+                <Stack
+                  direction="row"
+                  alignItems="end"
+                  justifyContent="space-between"
+                >
+                  <Stack spacing={2}>
+                    <CustomRating size="small" />
+                    <Typography
+                      fontWeight="700"
+                      fontSize="1.5rem"
+                      sx={{ color: "#778DFF" }}
+                    >
+                      $100
+                    </Typography>
+                  </Stack>
+                  <Stack spacing={1}>
+                    <IconButton
+                      size="medium"
+                      sx={{
+                        border: "1px solid #778DFF",
+                        padding: ".8rem",
+                        color: "#778DFF",
+                        ":hover": { bgcolor: "rgba(60, 60, 160, .3)" },
+                        transition: "all .3s ease",
+                      }}
+                    >
+                      <CallMissedOutgoingRoundedIcon />
+                    </IconButton>
+                    <IconButton
+                      size="medium"
+                      sx={{
+                        bgcolor: "rgba(60, 60, 160, .5)",
+                        padding: ".8rem",
+                        color: "#778DFF",
+                        ":hover": { bgcolor: "rgba(60, 60, 160, .8)" },
+                        transition: "all .3s ease",
+                      }}
+                    >
+                      <AddShoppingCartIcon />
+                    </IconButton>
+                  </Stack>
+                </Stack>
               </Box>
-              <Stack
-                p=".5rem 1.2rem"
-                flex={1}
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Typography
-                  color="primary.500"
-                  fontWeight="500"
-                  fontSize="1.1rem"
-                >
-                  $100
-                </Typography>
-                <IconButton
-                  size="small"
-                  sx={{
-                    bgcolor: "rgba(0, 0, 100, .1)",
-                    padding: ".6rem",
-                    ":hover": { bgcolor: "rgba(0, 0, 100, .15)" },
-                    transition: "all .3s ease",
-                  }}
-                  color="primary"
-                >
-                  <AddShoppingCartIcon />
-                </IconButton>
-              </Stack>
             </Stack>
           </SwiperSlide>
         );
