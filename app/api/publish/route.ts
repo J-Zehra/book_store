@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       title,
       genres,
       pageCount,
-      userId: userData.id,
+      authorId: userData.id,
     },
   });
 

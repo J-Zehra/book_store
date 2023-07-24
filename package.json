@@ -33,6 +33,7 @@
     "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-drag-drop-files": "^2.3.10",
     "react-lines-ellipsis": "^0.15.3",
     "react-lottie-player": "^1.5.4",
     "react-toastify": "^9.1.3",

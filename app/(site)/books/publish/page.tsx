@@ -10,10 +10,15 @@ import {
   Paper,
   Stack,
   TextField,
+  Typography,
   Autocomplete,
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
+import Lottie from "react-lottie-player";
+import UploadAnimation from "../../../../public/animations/upload.json";
+import Image from "next/image";
 
 export default function SellBook() {
   const [title, setTitle] = useState<string>("");
@@ -22,6 +27,8 @@ export default function SellBook() {
   const [genres, setGenres] = useState<string[] | null>([]);
   const [pageCount, setPageCount] = useState<number>();
   const [description, setDescription] = useState<string>("");
+  const [file, setFile] = useState<File>();
+  const [filePreviewUrl, setFilePreviewUrl] = useState<string>("");
 
   const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,13 +52,71 @@ export default function SellBook() {
       });
   };
 
+  const handleChange = (file: File) => {
+    setFilePreviewUrl(URL.createObjectURL(file));
+    setFile(file);
+  };
+
   return (
     <ObserverWrapper name="Sell Book">
       <Box paddingY="8rem" bgcolor="background.default">
         <Container maxWidth="lg">
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} alignItems="center">
             <Box flex={1}>
-              <Paper sx={{ height: "35rem", width: "25rem" }}></Paper>
+              <Paper sx={{ height: "35rem", width: "25rem", p: ".5rem" }}>
+                <FileUploader
+                  handleChange={handleChange}
+                  name="file"
+                  types={["JPG", "PNG", "GIF"]}
+                >
+                  {filePreviewUrl ? (
+                    <Image
+                      src={filePreviewUrl}
+                      width={500}
+                      height={500}
+                      alt="Preview"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: ".3rem",
+                      }}
+                    />
+                  ) : (
+                    <Stack
+                      height="100%"
+                      width="100%"
+                      justifyContent="center"
+                      alignItems="center"
+                      sx={{ cursor: "pointer" }}
+                    >
+                      <Lottie
+                        loop
+                        animationData={UploadAnimation}
+                        play
+                        style={{ width: 200, height: 200 }}
+                      />
+                      <Typography
+                        fontWeight="medium"
+                        fontSize="1.1rem"
+                        sx={{ opacity: ".5" }}
+                      >
+                        Drag and drop your book cover here
+                      </Typography>
+                      <Stack alignItems="center" mt={1} spacing={1}>
+                        <Typography
+                          fontWeight="medium"
+                          fontSize="1.1rem"
+                          sx={{ opacity: ".5" }}
+                        >
+                          or
+                        </Typography>
+                        <Button variant="contained">Browse</Button>
+                      </Stack>
+                    </Stack>
+                  )}
+                </FileUploader>
+              </Paper>
             </Box>
             <Stack
               flex={1}

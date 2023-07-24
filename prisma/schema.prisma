@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,40 +8,57 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid()) @map("_id")
-  username      String?
+  id            String       @id @default(cuid()) @map("_id")
+  username      String?      @unique
   password      String?
-  email         String?   @unique
+  email         String?      @unique
   emailVerified DateTime?
-  avatar         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  role          Role  @default(READER)
+  avatar        String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  role          Role         @default(READER)
   books         Book[]
   profile       Profile?
+  bookRating    BookRating[]
 }
 
 model Profile {
-  id            String  @id @default(cuid()) @map("_id")
-  bio           String?
-  penName       String?
-  userId        String  @unique
-  user          User    @relation(fields: [userId], references: [id])
+  id      String  @id @default(cuid()) @map("_id")
+  bio     String?
+  penName String? @unique
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Book {
-    id            String    @id @default(cuid()) @map("_id")
-    title         String
-    cover         String?
-    pageCount     Int
-    isbn          String
-    publisher     String
-    genres        String[]
-    description   String
-    createdAt     DateTime  @default(now())
-    updatedAt     DateTime  @updatedAt
-    userId        String  
-    user          User   @relation(fields: [userId], references: [id])
+  id          String       @id @default(cuid()) @map("_id")
+  title       String
+  cover       String?
+  pageCount   Int
+  isbn        String
+  publisher   String
+  genres      String[]
+  description String
+  rating      BookRating[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+}
+
+model BookRating {
+  id        String   @id @default(cuid()) @map("_id")
+  rating    Float
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookId String
+  userId String
+  book   Book   @relation(fields: [bookId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 enum Role {
