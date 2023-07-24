@@ -1,6 +1,6 @@
 import { Rating } from "@mui/material";
-import EmojiObjectsOutlinedIcon from "@mui/icons-material/EmojiObjectsOutlined";
-import TipsAndUpdatesRoundedIcon from "@mui/icons-material/TipsAndUpdatesRounded";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 
 export function CustomRating({
   size,
@@ -19,13 +19,13 @@ export function CustomRating({
       readOnly
       size={size}
       icon={
-        <TipsAndUpdatesRoundedIcon
+        <StarIcon
           fontSize="inherit"
           style={{ color: filledColor }}
         />
       }
       emptyIcon={
-        <EmojiObjectsOutlinedIcon
+        <StarBorderIcon
           style={{ opacity: 0.8, color: emptyColor }}
           fontSize="inherit"
         />

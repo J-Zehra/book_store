@@ -17,26 +17,28 @@ import React, { useState } from "react";
 import ObserverWrapper from "@/reusables/observerWrapper";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import { LoadingButton } from "@mui/lab";
 
 export default function Signin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isloggingIn, setIsLogginIn] = useState<boolean>(false);
   const route = useRouter();
-  // toast("Logged in!");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLogginIn(true);
     await signIn("credentials", { email, password, redirect: false })
       .then((res) => {
         console.log(res);
-        toast("Logged in!");
-        // route.push("/");
+        setIsLogginIn(false);
+        route.push("/");
       })
       .catch((err) => {
         console.log(err);
+        setIsLogginIn(false);
       });
   };
 
@@ -68,7 +70,7 @@ export default function Signin() {
           sx={{
             display: "flex",
             justifyContent: "end",
-            zIndex: 1
+            zIndex: 1,
           }}
         >
           <Box
@@ -117,15 +119,16 @@ export default function Signin() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button
+              <LoadingButton
                 type="submit"
                 fullWidth
+                loading={isloggingIn}
                 variant="contained"
                 sx={{ mt: 3, mb: 2, p: ".8rem" }}
                 size="large"
               >
-                Sign In
-              </Button>
+                Login
+              </LoadingButton>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -142,18 +145,6 @@ export default function Signin() {
           </Box>
         </Container>
       </Box>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        enableMultiContainer
-      />
     </ObserverWrapper>
   );
 }

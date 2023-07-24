@@ -1,3 +1,4 @@
+import { SessionUserData } from "@/types";
 import { useSession } from "next-auth/react";
 
 export default function useSessionData() {

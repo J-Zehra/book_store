@@ -9,13 +9,14 @@ import Watermarks from "@/components/watermarks";
 import PopularBooks from "@/components/popularBooks";
 import BestSellers from "@/components/bestSellers";
 import NewReleases from "@/components/newReleases";
-import { useSession } from "next-auth/react";
 import CTA from "@/components/CTA";
 import useSessionData from "@/hooks/useSessionData";
 import AuthorCTA from "@/authorComponents/authorCTA";
+import { Role } from "@/utils/enum";
 
 export default function Home() {
   const { userData } = useSessionData();
+  console.log(userData);
 
   return (
     <ObserverWrapper name="Home">
@@ -72,7 +73,7 @@ export default function Home() {
               </Typography>
             </Container>
             <Stack direction="row" marginTop="2rem" spacing={2}>
-              {userData?.author ? <AuthorCTA /> : <CTA />}
+              {userData?.role === Role.AUTHOR ? <AuthorCTA /> : <CTA />}
             </Stack>
           </Stack>
         </Container>

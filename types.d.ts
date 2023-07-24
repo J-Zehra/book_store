@@ -1,11 +1,30 @@
+import { Role } from "./utils/enum";
+
 type ChildrenProp = {
   children: React.ReactNode;
 };
 
 type SessionUserData = {
-  name: string;
-  author: boolean;
+  username: string;
+  role: Role;
   email: string;
   id: string;
-  image: string;
+  avatar: string;
+};
+
+type NewUser = {
+  username: string;
+  penName: string;
+  email: string;
+  password: string;
+  role: Role;
+};
+
+type BookData = {
+  title: string;
+  isbn: string;
+  publisher: string;
+  genres: string[] | null;
+  description: string;
+  pageCount: number;
 };

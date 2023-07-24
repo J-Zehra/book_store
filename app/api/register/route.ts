@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prismadb";
+import { NewUser } from "@/types";
 
 export async function POST(request: Request) {
   // Check the request method
@@ -9,12 +10,13 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
+  const newUserData: NewUser = body;
 
   // Destructure email and password directly from the body
-  const { name, penName, email, password, asAuthor } = body;
+  const { username, penName, email, password, role } = newUserData;
 
   // CHECK IF THE INPUT IS NOT EMPTY
-  if (!email || !password || !name) {
+  if (!email || !password || !username) {
     return new NextResponse("Missing Fields", { status: 400 });
   }
 
@@ -34,11 +36,15 @@ export async function POST(request: Request) {
   console.log(email, password);
   const user = await prisma.user.create({
     data: {
-      name,
-      penName,
+      username,
       email,
+      role,
       password: hashedPassword,
-      author: asAuthor,
+      profile: {
+        create: {
+          penName,
+        },
+      },
     },
   });
 

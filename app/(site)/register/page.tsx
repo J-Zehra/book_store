@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Alert,
   Avatar,
   Box,
   Button,
@@ -9,6 +10,9 @@ import {
   FormControlLabel,
   Grid,
   Link,
+  Modal,
+  Snackbar,
+  Stack,
   Switch,
   TextField,
   Typography,
@@ -19,25 +23,49 @@ import ObserverWrapper from "@/reusables/observerWrapper";
 import axios from "axios";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Role } from "@/utils/enum";
+import { NewUser } from "@/types";
+import { LoadingButton } from "@mui/lab";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
-  const [name, setName] = useState<string>("");
+  const navigate = useRouter();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
   const [penName, setPenName] = useState<string>("");
-  const [asAuthor, setAsAuthor] = useState<boolean>(false);
+  const [role, setRole] = useState<Role>(Role.READER);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isRegistering, setIsRegsitering] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsRegsitering(true);
+
+    const newUser: NewUser = {
+      email,
+      password,
+      username,
+      penName,
+      role,
+    };
+
     axios
-      .post("api/register", { email, password, name, penName, asAuthor })
+      .post("api/register", newUser)
       .then((res) => {
         console.log(res);
+        setIsRegsitering(false);
+        setOpenModal(true);
       })
       .catch((err) => {
         console.log(err);
+        setIsRegsitering(false);
+        setOpenModal(true);
       });
   };
+
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
 
   return (
     <ObserverWrapper name="Register">
@@ -83,15 +111,17 @@ export default function Register() {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={asAuthor}
-                    onChange={(e) => setAsAuthor(e.target.checked)}
+                    checked={role === Role.AUTHOR}
+                    onChange={(e) =>
+                      setRole(e.target.checked ? Role.AUTHOR : Role.READER)
+                    }
                   />
                 }
                 sx={{ color: "primary.500" }}
                 label="Register as Author"
               />
               <Grid container spacing={2} mt={1}>
-                <Grid item xs={12} sm={asAuthor ? 6 : 0}>
+                <Grid item xs={12} sm={role === Role.AUTHOR ? 6 : 0}>
                   <TextField
                     autoComplete="given-name"
                     name="name"
@@ -100,10 +130,10 @@ export default function Register() {
                     id="name"
                     label="Name"
                     autoFocus
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </Grid>
-                {asAuthor ? (
+                {role === Role.AUTHOR ? (
                   <Grid
                     item
                     xs={12}
@@ -161,15 +191,16 @@ export default function Register() {
                   />
                 </Grid>
               </Grid>
-              <Button
+              <LoadingButton
+                loading={isRegistering}
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, p: ".8rem" }}
                 size="large"
               >
-                Sign Up
-              </Button>
+                Register
+              </LoadingButton>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="login" variant="body2">
@@ -181,6 +212,53 @@ export default function Register() {
           </Box>
         </Container>
       </Box>
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            border: "none",
+            borderRadius: ".5rem",
+            boxShadow: 30,
+            p: 4,
+          }}
+        >
+          <Stack
+            width="100%"
+            spacing={3}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography
+              sx={{ opacity: ".6" }}
+              fontSize="1.2rem"
+              fontWeight="medium"
+            >
+              Account succesfully created!
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              <Button variant="outlined" onClick={() => setOpenModal(false)}>
+                Register another account
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => navigate.push("login")}
+              >
+                Go to login
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Modal>
     </ObserverWrapper>
   );
 }

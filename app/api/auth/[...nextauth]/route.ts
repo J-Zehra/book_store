@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import prisma from "@/lib/prismadb";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -75,7 +75,8 @@ const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          author: token.author,
+          role: token.role,
+          name: token.name,
         },
       };
     },
@@ -86,7 +87,9 @@ const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: user.id,
-          author: u.author,
+          role: u.role,
+          name: u.username,
+          picture: u.avatar,
         };
       }
       return token;
