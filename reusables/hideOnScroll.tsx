@@ -8,7 +8,7 @@ export default function HideOnScroll({
 }) {
   const trigger = useScrollTrigger({ threshold: 150 });
   const backdropTrigger = useScrollTrigger({
-    threshold: 10,
+    threshold: 1,
     disableHysteresis: true,
   });
 

@@ -22,8 +22,8 @@ import Image from "next/image";
 
 export default function SellBook() {
   const [title, setTitle] = useState<string>("");
-  const [ISBN, setISBN] = useState<string>("");
   const [publisher, setPublisher] = useState<string>("");
+  const [price, setPrice] = useState<number>();
   const [genres, setGenres] = useState<string[] | null>([]);
   const [pageCount, setPageCount] = useState<number>();
   const [description, setDescription] = useState<string>("");
@@ -35,7 +35,7 @@ export default function SellBook() {
 
     const bookData: BookData = {
       title,
-      isbn: ISBN,
+      price: price || 0,
       publisher,
       genres,
       description,
@@ -63,7 +63,10 @@ export default function SellBook() {
         <Container maxWidth="lg">
           <Stack direction="row" spacing={2} alignItems="center">
             <Box flex={1}>
-              <Paper sx={{ height: "35rem", width: "25rem", p: ".5rem" }}>
+              <Paper
+                elevation={0}
+                sx={{ height: "35rem", width: "25rem", p: ".5rem" }}
+              >
                 <FileUploader
                   handleChange={handleChange}
                   name="file"
@@ -131,9 +134,10 @@ export default function SellBook() {
               />
               <Stack direction="row" spacing={2}>
                 <TextField
-                  label="ISBN"
-                  value={ISBN}
-                  onChange={(e) => setISBN(e.target.value)}
+                  label="Price"
+                  value={price}
+                  type="number"
+                  onChange={(e) => setPrice(parseInt(e.target.value, 0))}
                 />
                 <TextField
                   label="Publisher"

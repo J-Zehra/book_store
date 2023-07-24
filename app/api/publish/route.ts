@@ -14,8 +14,8 @@ export async function POST(request: Request) {
   const bookData: BookData = body;
 
   // WRITE VALIDATION
-  const { description, genres, isbn, publisher, title, pageCount } = bookData;
-  if (!description || !genres || !isbn || !title) {
+  const { description, genres, price, publisher, title, pageCount } = bookData;
+  if (!description || !genres || !price || !title) {
     return;
   }
 
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
   const book = await prisma.book.create({
     data: {
       description,
-      isbn,
+      price,
       publisher,
       title,
       genres,

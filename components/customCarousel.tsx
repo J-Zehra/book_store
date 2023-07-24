@@ -8,9 +8,15 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
-import CallMissedOutgoingRoundedIcon from '@mui/icons-material/CallMissedOutgoingRounded';
+import CallMissedOutgoingRoundedIcon from "@mui/icons-material/CallMissedOutgoingRounded";
+import { useRouter } from "next/navigation";
 
 export default function CustomCarousel() {
+  const navigate = useRouter();
+  const handleVisitClick = () => {
+    navigate.push("books/id");
+  };
+
   return (
     <Swiper
       pagination={{ dynamicBullets: true }}
@@ -63,7 +69,7 @@ export default function CustomCarousel() {
                 borderRadius=".3rem"
                 sx={{
                   background:
-                    "linear-gradient(to top, black, rgba(0, 0, 0, 0))",
+                    "linear-gradient(to top, black, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))",
                 }}
               />
 
@@ -86,8 +92,9 @@ export default function CustomCarousel() {
                   <Stack spacing={1}>
                     <IconButton
                       size="medium"
+                      onClick={handleVisitClick}
                       sx={{
-                        border: "1px solid #778DFF",
+                        border: "1px dashed #778DFF",
                         padding: ".8rem",
                         color: "#778DFF",
                         ":hover": { bgcolor: "rgba(60, 60, 160, .3)" },

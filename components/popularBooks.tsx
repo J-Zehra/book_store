@@ -4,8 +4,14 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Top1Book from "./top1Book";
 import Image from "next/image";
 import CallMissedOutgoingRoundedIcon from "@mui/icons-material/CallMissedOutgoingRounded";
+import { useRouter } from "next/navigation";
 
 export default function PopularBooks() {
+  const navigate = useRouter();
+  const handleVisitClick = () => {
+    navigate.push("books/id");
+  };
+
   return (
     <Box
       sx={{
@@ -100,8 +106,10 @@ export default function PopularBooks() {
                     <Stack direction="column" spacing={1}>
                       <IconButton
                         size="medium"
-                        color="primary"
+                        onClick={handleVisitClick}
                         sx={{
+                          border: "1px dashed #778DFF",
+                          color: "#778DFF",
                           bgcolor: "rgba(60, 60, 160, .3)",
                           ":hover": { bgcolor: "rgba(60, 60, 160, .5)" },
                         }}

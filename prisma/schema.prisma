@@ -36,7 +36,7 @@ model Book {
   title       String
   cover       String?
   pageCount   Int
-  isbn        String
+  price       Int
   publisher   String
   genres      String[]
   description String

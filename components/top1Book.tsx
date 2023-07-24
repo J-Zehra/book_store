@@ -11,11 +11,17 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import LinesEllipsis from "react-lines-ellipsis";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
+import { useRouter } from "next/navigation";
 
 export default function Top1Book() {
+  const navigate = useRouter();
+  const handleVisitClick = () => {
+    navigate.push("books/id");
+  };
+
   return (
     <Stack
       bgcolor="background.paper"
@@ -55,7 +61,7 @@ export default function Top1Book() {
         </Typography>
         <Divider sx={{ marginBlock: ".6rem", opacity: ".5" }} />
         <Stack direction="row" alignItems="center" spacing="1rem">
-          <Typography color="primary.500" fontSize=".8rem">
+          <Typography color="primary" fontSize=".8rem">
             JK Rowling
           </Typography>
           <Divider
@@ -119,6 +125,7 @@ export default function Top1Book() {
               <Button
                 variant="outlined"
                 fullWidth
+                onClick={handleVisitClick}
                 sx={{ fontSize: ".9rem", padding: ".6rem" }}
               >
                 More info

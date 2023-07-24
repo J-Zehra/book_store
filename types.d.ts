@@ -22,7 +22,7 @@ type NewUser = {
 
 type BookData = {
   title: string;
-  isbn: string;
+  price: number;
   publisher: string;
   genres: string[] | null;
   description: string;
