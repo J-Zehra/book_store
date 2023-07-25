@@ -171,6 +171,7 @@ export default function SellBook() {
                 multiple
                 limitTags={3}
                 id="tags-outlined"
+                value={genres || undefined}
                 options={genreList}
                 getOptionLabel={(option) => option}
                 filterSelectedOptions
