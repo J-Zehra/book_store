@@ -26,13 +26,13 @@ export default function SellBook() {
   const [publisher, setPublisher] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
   const [price, setPrice] = useState<number | undefined>(undefined);
-  const [genres, setGenres] = useState<string[] | null>([]);
+  const [genres, setGenres] = useState<string[] | null>(null);
   const [pageCount, setPageCount] = useState<number | undefined>(undefined);
   const [totalStocks, setTotalStocks] = useState<number | undefined>(undefined);
   const [description, setDescription] = useState<string>("");
-  const [cover, setCover] = useState<{ fileUrl: string; fileKey: string }[]>(
-    []
-  );
+  const [cover, setCover] = useState<
+    { fileUrl: string; fileKey: string }[] | null
+  >(null);
   const [publishing, setPublishing] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -105,9 +105,9 @@ export default function SellBook() {
                 elevation={0}
                 sx={{ height: "35rem", width: "25rem", p: ".5rem" }}
               >
-                {cover.length > 0 ? (
+                {cover && cover.length > 0 ? (
                   <Image
-                    src={cover[0].fileUrl}
+                    src={cover[0]?.fileUrl}
                     alt="Cover"
                     width={500}
                     height={500}

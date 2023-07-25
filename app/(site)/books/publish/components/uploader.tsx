@@ -10,10 +10,11 @@ export default function Uploader({
 }: {
   setCover: React.Dispatch<
     React.SetStateAction<
-      {
-        fileUrl: string;
-        fileKey: string;
-      }[]
+      | {
+          fileUrl: string;
+          fileKey: string;
+        }[]
+      | null
     >
   >;
 }) {
