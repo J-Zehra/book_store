@@ -44,7 +44,7 @@ export default function SellBook() {
       !price ||
       !genres ||
       !pageCount ||
-      totalStocks ||
+      !totalStocks ||
       !description ||
       !cover
     ) {
