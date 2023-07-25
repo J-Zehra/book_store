@@ -20,6 +20,7 @@ model User {
   books         Book[]
   profile       Profile?
   bookRating    BookRating[]
+  bookSale      BookSale[]
 }
 
 model Profile {
@@ -48,12 +49,25 @@ model Book {
 
   authorId String
   author   User       @relation(fields: [authorId], references: [id])
-  CartItem CartItem[]
+  cartItem CartItem[]
+  bookSale BookSale[]
+}
+
+model BookSale {
+  id      String @id @default(cuid()) @map("_id")
+  unitSold Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  buyerId String
+  buyer   User   @relation(fields: [buyerId], references: [id])
+  bookId String
+  book   Book   @relation(fields: [bookId], references: [id])
 }
 
 model BookRating {
   id        String   @id @default(cuid()) @map("_id")
-  rating    Float
+  rating    Int
   comment   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -72,7 +86,7 @@ model CartItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   cart      Cart?    @relation(fields: [cartId], references: [id])
-  cartId    String?   @unique
+  cartId    String?  @unique
 }
 
 model Cart {

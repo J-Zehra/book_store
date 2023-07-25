@@ -1,36 +1,41 @@
 import { Stack, Typography } from "@mui/material";
+import moment from "moment";
 import React from "react";
 
-export default function MoreDetails() {
+export default function MoreDetails({
+  publisher,
+  publishDate,
+  totalPage,
+  language,
+}: {
+  publisher?: string;
+  publishDate?: string;
+  totalPage?: number;
+  language?: string;
+}) {
   return (
     <Stack spacing={2} pt={1}>
       <Typography fontSize="1.3rem" fontWeight="bold">
         More Details
       </Typography>
       <Stack>
-        <Stack>
-          <Typography>Publisher: </Typography>
-          <Typography> </Typography>
+        <Stack direction="row" spacing={1}>
+          <Typography>Publisher:</Typography>
+          <Typography color="primary">{publisher}</Typography>
         </Stack>
-        <Stack>
+        <Stack direction="row" spacing={1}>
           <Typography>Publish Date: </Typography>
-          <Typography> </Typography>
+          <Typography color="primary">
+            {moment(publishDate).format("LL")}
+          </Typography>
         </Stack>
-        <Stack>
+        <Stack direction="row" spacing={1}>
           <Typography>Total Page: </Typography>
-          <Typography> </Typography>
+          <Typography color="primary">{totalPage}</Typography>
         </Stack>
-        <Stack>
-          <Typography>Dimensions: </Typography>
-          <Typography> </Typography>
-        </Stack>
-        <Stack>
-          <Typography>Weight: </Typography>
-          <Typography> </Typography>
-        </Stack>
-        <Stack>
+        <Stack direction="row" spacing={1}>
           <Typography>Language: </Typography>
-          <Typography> </Typography>
+          <Typography color="primary">{language}</Typography>
         </Stack>
       </Stack>
     </Stack>

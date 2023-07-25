@@ -1,7 +1,7 @@
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const books = await prisma.book.findMany({
       include: {

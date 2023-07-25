@@ -14,7 +14,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CustomRating } from "@/reusables/styleRating";
 import Quantity from "./components/quantity";
 import ActionButtons from "./components/actionButtons";
@@ -22,9 +22,27 @@ import Description from "./components/description";
 import AboutAuthor from "./components/aboutAuthor";
 import MoreFromAuthor from "./components/moreFromAuthor";
 import MoreDetails from "./components/moreDetails";
+import axios from "axios";
+import { BookFullDetails } from "@/types";
+import moment from "moment";
 
 export default function BookInfo() {
   const { id } = useParams();
+  const [bookData, setBookData] = useState<BookFullDetails>();
+
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`/api/books/${id}`)
+        .then((res) => {
+          setBookData(res.data);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [id]);
 
   return (
     <Box paddingY="8rem" bgcolor="background.default">
@@ -32,7 +50,7 @@ export default function BookInfo() {
         <Stack sx={{ width: "100%" }} direction="row" spacing={2}>
           <Stack flex={1} justifyContent="start" alignItems="center">
             <Image
-              src="/book-cover.png"
+              src={bookData?.cover || "/book-cover.png"}
               width={500}
               height={500}
               alt="Book Cover"
@@ -46,17 +64,19 @@ export default function BookInfo() {
           </Stack>
           <Stack flex={1} spacing={2}>
             <Typography fontWeight="bold" fontSize="2rem">
-              Harry Potter and the Sorcerer’s Stone
+              {bookData?.title}
             </Typography>
             <Stack direction="row" alignItems="center" spacing="1rem">
               <Typography color="primary" fontSize=".8rem">
-                JK Rowling
+                {bookData?.author.profile.penName}
               </Typography>
               <Divider
                 orientation="vertical"
                 sx={{ height: "1rem", opacity: ".5" }}
               />
-              <Typography fontSize=".8rem">January 10, 2022</Typography>
+              <Typography fontSize=".8rem">
+                {moment(bookData?.createdAt).format("LL")}
+              </Typography>
               <Divider
                 orientation="vertical"
                 sx={{ height: "1rem", opacity: ".5" }}
@@ -70,41 +90,34 @@ export default function BookInfo() {
                 >
                   <LoyaltyIcon sx={{ color: "primary.main" }} />
                   <Typography fontSize=".8rem" color="primary">
-                    100
-                  </Typography>
-                </Stack>
-                <Stack
-                  alignItems="center"
-                  justifyContent="center"
-                  direction="row"
-                  color="primary"
-                  spacing={0.8}
-                >
-                  <RemoveRedEyeIcon sx={{ color: "primary.main" }} />
-                  <Typography fontSize=".8rem" color="primary">
-                    100
+                    {bookData?.bookSale.length}
                   </Typography>
                 </Stack>
               </Stack>
             </Stack>
-            <CustomRating size="medium" />
+            <CustomRating rating={bookData?.rating} size="medium" />
             <Divider sx={{ marginBlock: ".6rem", opacity: ".5" }} />
             <Typography fontWeight="bold" color="primary" fontSize="2.8rem">
-              $100
+              ${bookData?.price}
             </Typography>
             <Stack direction="row" alignItems="center" spacing={4}>
               <Quantity />
               <Chip
-                label="20 Stocks available"
+                label={`${bookData?.stocks} Stocks available`}
                 color="primary"
                 variant="outlined"
               />
             </Stack>
             <ActionButtons />
             <Divider sx={{ marginBlock: ".6rem", opacity: ".5" }} />
-            <Description />
-            <MoreDetails />
-            <AboutAuthor />
+            <Description description={bookData?.description} />
+            <MoreDetails
+              language={bookData?.language}
+              publisher={bookData?.publisher}
+              totalPage={bookData?.pageCount}
+              publishDate={bookData?.createdAt}
+            />
+            <AboutAuthor bio={bookData?.author.profile.bio} />
           </Stack>
         </Stack>
         <MoreFromAuthor />

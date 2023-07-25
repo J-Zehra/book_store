@@ -74,3 +74,25 @@ type OrderDetails = {
   total: number;
   address: string;
 };
+
+type BookFullDetails = {
+  id: string;
+  language: string;
+  pageCount: number;
+  price: number;
+  publisher: string;
+  stocks: number;
+  title: string;
+  createdAt: string;
+  cover: string;
+  description: string;
+  author: { avatar: string; profile: { penName: string; bio: string } };
+  bookSale: [];
+  genres: string[];
+  rating: [];
+};
+
+type BookRating = {
+  id: string,
+  rating: number
+}

@@ -20,16 +20,19 @@ import CheckIcon from "@mui/icons-material/Check";
 import { userDataState } from "@/state/atom/user";
 import { useSession } from "next-auth/react";
 import LoginNoticeModal from "../../../../reusables/loginNoticeModal";
+import { useRouter } from "next/navigation";
 
 export default function BookItem({ book }: { book: FetchedBookData }) {
+  const navigate = useRouter();
   const { status } = useSession();
   const [cartItemLocalState, setCartItemLocalState] =
     useRecoilState(cartItemState);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  console.log(cartItemLocalState);
-
-  const handleAddToCartClick = async () => {
+  const handleAddToCartClick = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
     if (status === "unauthenticated") {
       setOpenModal(true);
       return;
@@ -64,6 +67,10 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
       });
   };
 
+  const handleBookItemClick = () => {
+    navigate.push(`books/${book.id}`);
+  };
+
   return (
     <Paper elevation={2}>
       <Stack
@@ -75,7 +82,9 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
         spacing="1rem"
         padding=".8rem"
         position="relative"
-        // sx={{ cursor: "pointer" }}
+        component="button"
+        onClick={handleBookItemClick}
+        sx={{ cursor: "pointer", border: "none" }}
       >
         <LoginNoticeModal openModal={openModal} setOpenModal={setOpenModal} />
         <Box

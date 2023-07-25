@@ -1,21 +1,22 @@
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 
-export default function AboutAuthor() {
+export default function AboutAuthor({ bio }: { bio?: string }) {
   return (
     <Stack spacing={2} pt={1}>
       <Typography fontSize="1.3rem" fontWeight="bold">
         About the Author
       </Typography>
-      <Typography textAlign="justify">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum
-      </Typography>
+      {bio ? (
+        <Typography textAlign="justify">{bio}</Typography>
+      ) : (
+        <Typography
+          textAlign="justify"
+          fontSize="1.2rem"
+          fontWeight="bold"
+          sx={{ opacity: ".2" }}
+        >{`The author hasn't set their bio yet.`}</Typography>
+      )}
     </Stack>
   );
 }
