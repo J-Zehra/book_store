@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     pageCount,
     language,
     totalStocks,
+    cover,
   } = bookData;
   if (!description || !genres || !price || !title || !totalStocks) {
     return;
@@ -42,6 +43,7 @@ export async function POST(request: Request) {
       genres,
       pageCount,
       language,
+      cover,
       stocks: totalStocks,
       authorId: userData.id,
     },

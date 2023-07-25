@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
-import { FileUploader } from "react-drag-drop-files";
-import Lottie from "react-lottie-player";
-import UploadAnimation from "../../../../public/animations/upload.json";
+import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
+import Uploader from "./components/uploader";
+import SuccessModal from "./components/successModal";
 
 export default function SellBook() {
   const [title, setTitle] = useState<string>("");
@@ -29,11 +29,28 @@ export default function SellBook() {
   const [pageCount, setPageCount] = useState<number>();
   const [totalStocks, setTotalStocks] = useState<number>();
   const [description, setDescription] = useState<string>("");
-  const [file, setFile] = useState<File>();
-  const [filePreviewUrl, setFilePreviewUrl] = useState<string>("");
+  const [cover, setCover] = useState<{ fileUrl: string; fileKey: string }[]>(
+    []
+  );
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (
+      !title ||
+      !publisher ||
+      !language ||
+      !price ||
+      !genres ||
+      !pageCount ||
+      totalStocks ||
+      !description ||
+      !cover
+    ) {
+      toast.error("Please fill all the fields");
+      return;
+    }
 
     const bookData: BookData = {
       title,
@@ -43,6 +60,7 @@ export default function SellBook() {
       description,
       pageCount: pageCount || 0,
       language,
+      cover: cover[0].fileUrl,
       totalStocks: totalStocks || 0,
     };
 
@@ -56,13 +74,10 @@ export default function SellBook() {
       });
   };
 
-  const handleChange = (file: File) => {
-    setFilePreviewUrl(URL.createObjectURL(file));
-    setFile(file);
-  };
-
   return (
     <ObserverWrapper name="Sell Book">
+      <Toaster />
+      <SuccessModal openModal={openModal} setOpenModal={setOpenModal} />
       <Box paddingY="8rem" bgcolor="background.default">
         <Container maxWidth="lg">
           <Stack direction="row" spacing={2} alignItems="center">
@@ -71,58 +86,21 @@ export default function SellBook() {
                 elevation={0}
                 sx={{ height: "35rem", width: "25rem", p: ".5rem" }}
               >
-                <FileUploader
-                  handleChange={handleChange}
-                  name="file"
-                  types={["JPG", "PNG", "GIF"]}
-                >
-                  {filePreviewUrl ? (
-                    <Image
-                      src={filePreviewUrl}
-                      width={500}
-                      height={500}
-                      alt="Preview"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        borderRadius: ".3rem",
-                      }}
-                    />
-                  ) : (
-                    <Stack
-                      height="100%"
-                      width="100%"
-                      justifyContent="center"
-                      alignItems="center"
-                      sx={{ cursor: "pointer" }}
-                    >
-                      <Lottie
-                        loop
-                        animationData={UploadAnimation}
-                        play
-                        style={{ width: 200, height: 200 }}
-                      />
-                      <Typography
-                        fontWeight="medium"
-                        fontSize="1.1rem"
-                        sx={{ opacity: ".5" }}
-                      >
-                        Drag and drop your book cover here
-                      </Typography>
-                      <Stack alignItems="center" mt={1} spacing={1}>
-                        <Typography
-                          fontWeight="medium"
-                          fontSize="1.1rem"
-                          sx={{ opacity: ".5" }}
-                        >
-                          or
-                        </Typography>
-                        <Button variant="contained">Browse</Button>
-                      </Stack>
-                    </Stack>
-                  )}
-                </FileUploader>
+                {cover.length > 0 ? (
+                  <Image
+                    src={cover[0].fileUrl}
+                    alt="Cover"
+                    width={500}
+                    height={500}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <Uploader setCover={setCover} />
+                )}
               </Paper>
             </Box>
             <Stack
@@ -216,4 +194,19 @@ export default function SellBook() {
   );
 }
 
-const genreList = ["Action", "Comedy", "Drama"];
+const genreList = [
+  "Action",
+  "Comedy",
+  "Drama",
+  "Romance",
+  "Thriller",
+  "Sci-fi",
+  "Horror",
+  "Historical",
+  "Mystery",
+  "Fantasy",
+  "Musicals",
+  "Adventure",
+  "Sports",
+  "Western",
+];

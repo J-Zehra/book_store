@@ -29,6 +29,7 @@ type BookData = {
   pageCount: number;
   language: string;
   totalStocks: number;
+  cover: string;
 };
 
 type BookCartData = {

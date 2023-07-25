@@ -64,7 +64,6 @@ export default function Register() {
       });
   };
 
-  const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
   return (
