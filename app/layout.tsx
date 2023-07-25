@@ -4,6 +4,7 @@ import { open_sans } from "@/utils/font";
 import Footer from "@/components/footer";
 import AuthContext from "@/context/authContext";
 import AppContext from "@/context/appContext";
+import Loadables from "@/context/loadables";
 
 export const metadata = {
   title: "Mema Book Store",
@@ -26,11 +27,13 @@ export default function RootLayout({
       <body style={{ margin: "0" }} className={open_sans.className}>
         <AuthContext>
           <AppContext>
-            <ThemeWrapper>
-              <Navbar />
-              {children}
-              <Footer />
-            </ThemeWrapper>
+            <Loadables>
+              <ThemeWrapper>
+                <Navbar />
+                {children}
+                <Footer />
+              </ThemeWrapper>
+            </Loadables>
           </AppContext>
         </AuthContext>
       </body>

@@ -27,7 +27,7 @@ export default function CartItem({ item }: { item: FetchedCart }) {
     setCartItemLocalState(newList);
 
     axios
-      .post("/api/cart/delete", { id: item.id })
+      .delete("/api/cart/delete", { params: { id: item.id } })
       .then((res) => {
         console.log(res);
       })

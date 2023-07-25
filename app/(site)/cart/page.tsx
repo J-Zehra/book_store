@@ -8,37 +8,18 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import Lottie from "react-lottie-player";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import EmptyCartAnimation from "../../../public/animations/emptyCart.json";
-import useSessionData from "@/hooks/useSessionData";
-import { userDataState } from "@/state/atom/user";
 import CartItem from "./components/cartItem";
-import { FetchedCart } from "@/types";
 import Address from "./components/address";
 import { cartItemState } from "@/state/atom/cart";
 import { cartItemsSelector } from "@/state/selector/cartItemsSelector";
 
 export default function CartPage() {
-  const { userData, status } = useSessionData();
-  const [, setUserData] = useRecoilState(userDataState);
+  const cartItemLocalState = useRecoilValue(cartItemState);
 
-  const cartItems = useRecoilValue(cartItemsSelector) as FetchedCart[];
-  const [cartItemLocalState, setCartItemLocalState] =
-    useRecoilState(cartItemState);
-
-  useEffect(() => {
-    if (cartItems) {
-      setCartItemLocalState(cartItems);
-    }
-  }, [cartItems, setCartItemLocalState]);
-
-  useEffect(() => {
-    if (status === "authenticated" && userData) {
-      setUserData(userData);
-    }
-  }, [setUserData, status, userData]);
   return (
     <Box paddingY="8rem" bgcolor="background.default">
       <Container maxWidth="lg">
