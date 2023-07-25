@@ -14,8 +14,17 @@ export async function POST(request: Request) {
   const bookData: BookData = body;
 
   // WRITE VALIDATION
-  const { description, genres, price, publisher, title, pageCount } = bookData;
-  if (!description || !genres || !price || !title) {
+  const {
+    description,
+    genres,
+    price,
+    publisher,
+    title,
+    pageCount,
+    language,
+    totalStocks,
+  } = bookData;
+  if (!description || !genres || !price || !title || !totalStocks) {
     return;
   }
 
@@ -32,6 +41,8 @@ export async function POST(request: Request) {
       title,
       genres,
       pageCount,
+      language,
+      stocks: totalStocks,
       authorId: userData.id,
     },
   });

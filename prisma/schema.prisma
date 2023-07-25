@@ -38,6 +38,8 @@ model Book {
   pageCount   Int
   price       Int
   publisher   String
+  language    String
+  stocks      Int
   genres      String[]
   description String
   rating      BookRating[]
@@ -45,7 +47,8 @@ model Book {
   updatedAt   DateTime     @updatedAt
 
   authorId String
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User       @relation(fields: [authorId], references: [id])
+  CartItem CartItem[]
 }
 
 model BookRating {
@@ -59,6 +62,25 @@ model BookRating {
   userId String
   book   Book   @relation(fields: [bookId], references: [id])
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model CartItem {
+  id        String   @id @default(cuid()) @map("_id")
+  quantity  Int
+  bookId    String
+  book      Book     @relation(fields: [bookId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart?    @relation(fields: [cartId], references: [id])
+  cartId    String?   @unique
+}
+
+model Cart {
+  id        String     @id @default(cuid()) @map("_id")
+  userId    String?    @unique
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 enum Role {

@@ -13,10 +13,22 @@ import CTA from "@/components/CTA";
 import useSessionData from "@/hooks/useSessionData";
 import AuthorCTA from "@/authorComponents/authorCTA";
 import { Role } from "@/utils/enum";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { bookListState } from "@/state/atom/books";
+import { userDataState } from "@/state/atom/user";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { userData } = useSessionData();
-  console.log(userData);
+  const { userData, status } = useSessionData();
+  const [user, setUserData] = useRecoilState(userDataState);
+
+  useEffect(() => {
+    if (status === "authenticated" && userData) {
+      setUserData(userData);
+    }
+  }, [setUserData, status, userData]);
+
+  console.log(user)
 
   return (
     <ObserverWrapper name="Home">

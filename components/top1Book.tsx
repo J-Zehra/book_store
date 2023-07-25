@@ -11,7 +11,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import LinesEllipsis from "react-lines-ellipsis";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
 import { useRouter } from "next/navigation";

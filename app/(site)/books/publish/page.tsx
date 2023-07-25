@@ -23,9 +23,11 @@ import Image from "next/image";
 export default function SellBook() {
   const [title, setTitle] = useState<string>("");
   const [publisher, setPublisher] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
   const [price, setPrice] = useState<number>();
   const [genres, setGenres] = useState<string[] | null>([]);
   const [pageCount, setPageCount] = useState<number>();
+  const [totalStocks, setTotalStocks] = useState<number>();
   const [description, setDescription] = useState<string>("");
   const [file, setFile] = useState<File>();
   const [filePreviewUrl, setFilePreviewUrl] = useState<string>("");
@@ -40,6 +42,8 @@ export default function SellBook() {
       genres,
       description,
       pageCount: pageCount || 0,
+      language,
+      totalStocks: totalStocks || 0,
     };
 
     axios
@@ -151,6 +155,21 @@ export default function SellBook() {
                   onChange={(e) => setPageCount(parseInt(e.target.value, 0))}
                 />
               </Stack>
+              <Stack direction="row" width="100%" spacing={2}>
+                <TextField
+                  fullWidth
+                  label="Language"
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                />
+                <TextField
+                  label="Total Stocks"
+                  value={totalStocks}
+                  type="number"
+                  fullWidth
+                  onChange={(e) => setTotalStocks(parseInt(e.target.value, 0))}
+                />
+              </Stack>
               <Autocomplete
                 multiple
                 limitTags={3}
@@ -169,11 +188,12 @@ export default function SellBook() {
                   setGenres(newValue);
                 }}
               />
+
               <TextField
                 id="standard-multiline-static"
                 label="Write description"
                 multiline
-                rows={10}
+                rows={7}
                 variant="outlined"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

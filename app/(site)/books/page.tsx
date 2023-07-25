@@ -5,8 +5,13 @@ import { Box, Container, Stack, Pagination, Typography } from "@mui/material";
 import React from "react";
 import Filters from "./components/filters";
 import BookItem from "./components/bookItem";
+import { useRecoilValue } from "recoil";
+import { bookListState } from "@/state/atom/books";
+import { BookData, FetchedBookData } from "@/types";
 
 export default function Books() {
+  const bookList = useRecoilValue(bookListState) as FetchedBookData[];
+
   return (
     <ObserverWrapper name="Books">
       <Box paddingY="8rem" bgcolor="background.default">
@@ -22,8 +27,8 @@ export default function Books() {
             1,234 books available
           </Typography>
           <Stack direction="row" useFlexGap flexWrap="wrap" spacing={3}>
-            {[...Array(12)].map((_, index) => {
-              return <BookItem key={index} />;
+            {bookList?.map((book) => {
+              return <BookItem key={book.id} book={book} />;
             })}
           </Stack>
           <Stack alignItems="center" marginTop="2rem">
