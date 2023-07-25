@@ -40,12 +40,12 @@ export default function SellBook() {
     setTitle("");
     setLanguage("");
     setPublisher("");
-    setPrice(undefined);
-    setGenres([]);
-    setPageCount(undefined);
-    setTotalStocks(undefined);
+    setPrice(0);
+    setGenres(null);
+    setPageCount(0);
+    setTotalStocks(0);
     setDescription("");
-    setCover([]);
+    setCover(null);
   };
 
   const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
