@@ -14,7 +14,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import Uploader from "./components/uploader";

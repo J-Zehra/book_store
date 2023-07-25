@@ -83,7 +83,7 @@ export default function Navbar() {
               <Navlinks links={["Home", "About", "Books", "Authors"]} />
             </Box>
             <Stack direction="row" spacing={2} alignItems="center">
-              {userData.role === Role.AUTHOR ? (
+              {userData && userData.role === Role.AUTHOR ? (
                 <AuthorLinks />
               ) : (
                 <SearchField />
