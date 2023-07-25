@@ -20,7 +20,7 @@ export default function AuthorLinks() {
           Analytics
         </Typography>
       </Link>
-      <Link href="/my-books" style={{ textDecoration: "none" }}>
+      <Link href="/myBooks" style={{ textDecoration: "none" }}>
         <Typography
           color={activeNav == "my-books" ? "primary" : "text.primary"}
           sx={{

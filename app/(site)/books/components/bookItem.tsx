@@ -21,10 +21,12 @@ import { userDataState } from "@/state/atom/user";
 import { useSession } from "next-auth/react";
 import LoginNoticeModal from "../../../../reusables/loginNoticeModal";
 import { useRouter } from "next/navigation";
+import useSessionData from "@/hooks/useSessionData";
+import moment from "moment";
 
 export default function BookItem({ book }: { book: FetchedBookData }) {
   const navigate = useRouter();
-  const { status } = useSession();
+  const { status, userData } = useSessionData();
   const [cartItemLocalState, setCartItemLocalState] =
     useRecoilState(cartItemState);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -70,14 +72,16 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
   const handleBookItemClick = () => {
     navigate.push(`books/${book.id}`);
   };
+  console.log(book);
+  console.log(cartItemLocalState);
 
   return (
     <Paper elevation={2}>
       <Stack
         bgcolor="background.paper"
         borderRadius=".3rem"
-        width="21rem"
-        height="13rem"
+        width="23rem"
+        height="14rem"
         direction="row"
         spacing="1rem"
         padding=".8rem"
@@ -108,11 +112,19 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
             }}
           />
         </Box>
-        <Stack width="100%" spacing={1} height="100%" flex={1}>
-          <Typography fontWeight="bold" fontSize="1rem">
+        <Stack
+          width="100%"
+          alignItems="start"
+          spacing={1}
+          height="100%"
+          flex={1}
+        >
+          <Typography fontWeight="bold" textAlign="start" fontSize="1rem">
             {book.title}
           </Typography>
-          <Divider sx={{ marginBlock: ".6rem", opacity: ".5" }} />
+          <Divider
+            sx={{ marginBlock: ".6rem", opacity: ".5", width: "100%" }}
+          />
           <Stack
             direction="row"
             alignItems="center"
@@ -123,7 +135,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
               {book.author.profile.penName}
             </Typography>
             <Typography fontWeight="500" fontSize=".7rem">
-              January 10, 2022
+              {moment(book.createdAt).format("LL")}
             </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
@@ -171,6 +183,10 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                   >
                     <CheckIcon style={{ fontSize: "1.5rem" }} />
                   </IconButton>
+                ) : book.authorId === userData.id ? (
+                  <Button color="primary" variant="contained">
+                    Manage
+                  </Button>
                 ) : (
                   <IconButton
                     sx={{

@@ -52,6 +52,7 @@ type FetchedBookData = {
   pageCount: number;
   language: string;
   stocks: number;
+  bookSale: [];
   createdAt: string;
   updatedAt: string;
 };
@@ -61,6 +62,7 @@ type FetchedCart = {
     cover: string;
     price: number;
     title: string;
+    authorId?: string;
     author: { profile: { penName: string } };
   };
   bookId: string;
@@ -93,6 +95,6 @@ type BookFullDetails = {
 };
 
 type BookRating = {
-  id: string,
-  rating: number
-}
+  id: string;
+  rating: number;
+};

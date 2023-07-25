@@ -16,6 +16,7 @@ import { useRecoilState } from "recoil";
 import { cartItemState } from "@/state/atom/cart";
 import { selectedCartItems } from "@/state/atom/order";
 import Quantity from "./quantity";
+import Image from "next/image";
 
 export default function CartItem({ item }: { item: FetchedCart }) {
   const [cartItemLocalState, setCartItemLocalState] =
@@ -66,7 +67,20 @@ export default function CartItem({ item }: { item: FetchedCart }) {
             borderRadius=".3rem"
             height="100%"
             bgcolor="rgba(0, 0, 0, .1)"
-          />
+          >
+            <Image
+              src={item.book.cover || "/book-cover.png"}
+              alt="Cover"
+              width={500}
+              height={500}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+            />
+          </Box>
           <Stack justifyContent="space-between">
             <Stack spacing={1} direction="row" alignItems="center">
               <Typography

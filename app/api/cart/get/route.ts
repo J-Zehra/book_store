@@ -16,6 +16,7 @@ export async function GET(request: Request) {
                 cover: true,
                 price: true,
                 title: true,
+                authorId: true,
                 author: { select: { profile: { select: { penName: true } } } },
               },
             },

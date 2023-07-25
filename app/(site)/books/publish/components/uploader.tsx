@@ -28,7 +28,6 @@ export default function Uploader({
             setCover(res);
           }
           console.log("Files: ", res);
-          alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {
           // Do something with the error.

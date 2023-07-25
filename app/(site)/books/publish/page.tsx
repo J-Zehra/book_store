@@ -19,24 +19,38 @@ import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import Uploader from "./components/uploader";
 import SuccessModal from "./components/successModal";
+import { LoadingButton } from "@mui/lab";
 
 export default function SellBook() {
   const [title, setTitle] = useState<string>("");
   const [publisher, setPublisher] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
-  const [price, setPrice] = useState<number>();
+  const [price, setPrice] = useState<number | undefined>(undefined);
   const [genres, setGenres] = useState<string[] | null>([]);
-  const [pageCount, setPageCount] = useState<number>();
-  const [totalStocks, setTotalStocks] = useState<number>();
+  const [pageCount, setPageCount] = useState<number | undefined>(undefined);
+  const [totalStocks, setTotalStocks] = useState<number | undefined>(undefined);
   const [description, setDescription] = useState<string>("");
   const [cover, setCover] = useState<{ fileUrl: string; fileKey: string }[]>(
     []
   );
+  const [publishing, setPublishing] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const emptyAllState = () => {
+    setTitle("");
+    setLanguage("");
+    setPublisher("");
+    setPrice(undefined);
+    setGenres([]);
+    setPageCount(undefined);
+    setTotalStocks(undefined);
+    setDescription("");
+    setCover([]);
+  };
 
   const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setPublishing(true);
     if (
       !title ||
       !publisher ||
@@ -49,6 +63,7 @@ export default function SellBook() {
       !cover
     ) {
       toast.error("Please fill all the fields");
+      setPublishing(false);
       return;
     }
 
@@ -67,15 +82,19 @@ export default function SellBook() {
     axios
       .post("../api/publish", bookData)
       .then((res) => {
+        setPublishing(false);
+        setOpenModal(true);
+        emptyAllState();
         console.log(res);
       })
       .catch((err) => {
+        setPublishing(false);
         console.log(err);
       });
   };
 
   return (
-    <ObserverWrapper name="Sell Book">
+    <ObserverWrapper name="Publish">
       <Toaster />
       <SuccessModal openModal={openModal} setOpenModal={setOpenModal} />
       <Box paddingY="8rem" bgcolor="background.default">
@@ -176,7 +195,8 @@ export default function SellBook() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <Button
+              <LoadingButton
+                loading={publishing}
                 variant="contained"
                 sx={{
                   padding: "1rem",
@@ -185,7 +205,7 @@ export default function SellBook() {
                 type="submit"
               >
                 Publish
-              </Button>
+              </LoadingButton>
             </Stack>
           </Stack>
         </Container>
