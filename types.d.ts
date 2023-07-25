@@ -5,7 +5,7 @@ type ChildrenProp = {
 };
 
 type SessionUserData = {
-  username: string;
+  name: string;
   role: Role;
   email: string;
   id: string;

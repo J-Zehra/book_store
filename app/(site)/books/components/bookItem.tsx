@@ -8,23 +8,33 @@ import {
   Button,
   BoxProps,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
 import { BookCartData, FetchedBookData, FetchedCart } from "@/types";
 import axios from "axios";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { cartItemState } from "@/state/atom/cart";
 import CheckIcon from "@mui/icons-material/Check";
+import { userDataState } from "@/state/atom/user";
+import { useSession } from "next-auth/react";
+import LoginNoticeModal from "../../../../reusables/loginNoticeModal";
 
 export default function BookItem({ book }: { book: FetchedBookData }) {
+  const { status } = useSession();
   const [cartItemLocalState, setCartItemLocalState] =
     useRecoilState(cartItemState);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   console.log(cartItemLocalState);
 
   const handleAddToCartClick = async () => {
+    if (status === "unauthenticated") {
+      setOpenModal(true);
+      return;
+    }
+
     const data: BookCartData = {
       bookId: book.id,
       quantity: 1,
@@ -67,6 +77,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
         position="relative"
         // sx={{ cursor: "pointer" }}
       >
+        <LoginNoticeModal openModal={openModal} setOpenModal={setOpenModal} />
         <Box
           bgcolor="rgba(0, 0, 0, .2)"
           borderRadius=".3rem"
@@ -75,7 +86,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
           flex={1}
         >
           <Image
-            src="/book-cover.png"
+            src={book.cover || "/book-cover.png"}
             width={500}
             height={500}
             alt="Book Cover"

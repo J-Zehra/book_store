@@ -27,9 +27,5 @@ export default function Loadables({ children }: { children: React.ReactNode }) {
     }
   }, [setUserData, status, userData]);
 
-  if (user && cartItemLocalState) {
-    return children;
-  }
-
-  return null;
+  return children;
 }

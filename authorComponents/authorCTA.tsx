@@ -14,7 +14,7 @@ export default function AuthorCTA() {
         sx={{ padding: "1rem 1.5rem" }}
       >
         <Link
-          href="/books"
+          href="/books/publish"
           style={{ textDecoration: "inherit", color: "inherit" }}
         >
           Sell New Book
