@@ -14,10 +14,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { cartItemState } from "@/state/atom/cart";
+import { selectedCartItems } from "@/state/atom/order";
+import Quantity from "./quantity";
 
 export default function CartItem({ item }: { item: FetchedCart }) {
   const [cartItemLocalState, setCartItemLocalState] =
     useRecoilState(cartItemState);
+  const [selectedCartItem, setSelectedCartItem] =
+    useRecoilState(selectedCartItems);
 
   const handleDeleteItem = async () => {
     const newList = cartItemLocalState.filter((cartItem) => {
@@ -34,6 +38,18 @@ export default function CartItem({ item }: { item: FetchedCart }) {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setSelectedCartItem((prev) => [...prev, item]);
+    } else {
+      const newValue = selectedCartItem.filter((cartItem) => {
+        return cartItem.id !== item.id;
+      });
+
+      setSelectedCartItem(newValue);
+    }
   };
 
   return (
@@ -66,16 +82,42 @@ export default function CartItem({ item }: { item: FetchedCart }) {
               </Typography>
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">
-              <Typography fontSize=" 1.3rem" color="primary" fontWeight="bold">
+              <Typography
+                fontSize=" 1.2rem"
+                color="primary"
+                fontWeight="medium"
+              >
                 ${item.book.price}
               </Typography>
               <Chip label={`x${item.quantity}`} size="small" />
+              <Quantity item={item} />
             </Stack>
           </Stack>
         </Stack>
-        <Stack direction="row" alignItems="center">
-          <Checkbox />
-          <IconButton color="error" onClick={handleDeleteItem}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Checkbox
+            sx={{
+              transition: "all .3s ease",
+              bgcolor: "rgba(0, 0, 100, .1)",
+              p: "1rem",
+              ":hover": {
+                bgcolor: "rgba(0, 0, 100, .2)",
+              },
+            }}
+            onChange={handleChange}
+          />
+          <IconButton
+            color="error"
+            sx={{
+              transition: "all .3s ease",
+              bgcolor: "rgba(100, 0, 0, .1)",
+              p: "1rem",
+              ":hover": {
+                bgcolor: "rgba(100, 0, 0, .2)",
+              },
+            }}
+            onClick={handleDeleteItem}
+          >
             <DeleteIcon />
           </IconButton>
         </Stack>

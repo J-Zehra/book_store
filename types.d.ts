@@ -67,3 +67,10 @@ type FetchedCart = {
   id?: string;
   quantity: number;
 };
+
+type OrderDetails = {
+  email: string;
+  items: [{ title: string; price: number; quantity: number; bookId: string }];
+  total: number;
+  address: string;
+};
