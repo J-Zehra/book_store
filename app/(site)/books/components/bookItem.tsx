@@ -183,7 +183,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                   >
                     <CheckIcon style={{ fontSize: "1.5rem" }} />
                   </IconButton>
-                ) : book.authorId === userData.id ? (
+                ) : book.authorId === userData?.id ? (
                   <Button color="primary" variant="contained">
                     Manage
                   </Button>
