@@ -24,7 +24,7 @@ type BookData = {
   title: string;
   price: number;
   publisher: string;
-  genres: string[] | null;
+  genres: string[] | undefined;
   description: string;
   pageCount: number;
   language: string;

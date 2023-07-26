@@ -1,25 +1,28 @@
 "use client";
 
 import ObserverWrapper from "@/reusables/observerWrapper";
-import { BookData } from "@/types";
-
+import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
   Box,
+  Button,
   Container,
   Paper,
   Stack,
   TextField,
-  Autocomplete,
 } from "@mui/material";
-import axios from "axios";
-import React, {  useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import Uploader from "./components/uploader";
 import SuccessModal from "./components/successModal";
-import { LoadingButton } from "@mui/lab";
+import toast, { Toaster } from "react-hot-toast";
+import { useParams, useRouter } from "next/navigation";
+import axios from "axios";
+import { BookData, BookFullDetails } from "@/types";
 
-export default function SellBook() {
+export default function UpdateBookPage() {
+  const { id } = useParams();
+  const [defaultValue, setDefaultValue] = useState<BookFullDetails>();
   const [title, setTitle] = useState<string>("");
   const [publisher, setPublisher] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
@@ -31,8 +34,10 @@ export default function SellBook() {
   const [cover, setCover] = useState<
     { fileUrl: string; fileKey: string }[] | null
   >(null);
-  const [publishing, setPublishing] = useState<boolean>(false);
+  const navigate = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const [updating, setUpdating] = useState<boolean>(false);
 
   const emptyAllState = () => {
     setTitle("");
@@ -46,9 +51,9 @@ export default function SellBook() {
     setCover(null);
   };
 
-  const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setPublishing(true);
+    setUpdating(true);
     if (
       !title ||
       !publisher ||
@@ -61,7 +66,7 @@ export default function SellBook() {
       !cover
     ) {
       toast.error("Please fill all the fields");
-      setPublishing(false);
+      setUpdating(false);
       return;
     }
 
@@ -78,18 +83,37 @@ export default function SellBook() {
     };
 
     axios
-      .post("../api/publish", bookData)
+      .put(`/api/books/update/${id}`, bookData)
       .then((res) => {
-        setPublishing(false);
+        setUpdating(false);
         setOpenModal(true);
         emptyAllState();
         console.log(res);
       })
       .catch((err) => {
-        setPublishing(false);
+        setUpdating(false);
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    axios
+      .get(`/api/books/${id}`)
+      .then((res) => {
+        console.log(res);
+        setDefaultValue(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      setTitle(defaultValue.title);
+      setDescription(defaultValue.description);
+    }
+  }, [defaultValue]);
 
   return (
     <ObserverWrapper name="Publish">
@@ -124,7 +148,7 @@ export default function SellBook() {
               flex={1}
               spacing={2}
               component="form"
-              onSubmit={handlePublish}
+              onSubmit={handleUpdate}
             >
               <TextField
                 label="Title of the book"
@@ -194,17 +218,28 @@ export default function SellBook() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <LoadingButton
-                loading={publishing}
-                variant="contained"
-                sx={{
-                  padding: "1rem",
-                }}
-                size="large"
-                type="submit"
-              >
-                Publish
-              </LoadingButton>
+              <Stack direction="row" spacing={2}>
+                <Button
+                  color="primary"
+                  onClick={() => navigate.back()}
+                  fullWidth
+                  variant="outlined"
+                >
+                  Cancel
+                </Button>
+                <LoadingButton
+                  fullWidth
+                  loading={updating}
+                  variant="contained"
+                  sx={{
+                    padding: "1rem",
+                  }}
+                  size="large"
+                  type="submit"
+                >
+                  Publish
+                </LoadingButton>
+              </Stack>
             </Stack>
           </Stack>
         </Container>

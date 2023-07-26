@@ -26,7 +26,7 @@ export default function AuthorCTA() {
         variant="outlined"
       >
         <Link
-          href="/authors"
+          href="/myBooks"
           style={{ textDecoration: "inherit", color: "inherit" }}
         >
           My Books

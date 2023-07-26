@@ -5,8 +5,10 @@ import React, { useState } from "react";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import NoticeModal from "./noticeModal";
+import { useRouter } from "next/navigation";
 
 export default function BookItem({ book }: { book: FetchedBookData }) {
+  const navigate = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [bookIdToDelete, setBookIdToDelete] = useState<string>("");
 
@@ -62,7 +64,11 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
           >
             Delete
           </Button>
-          <Button color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => navigate.push(`/myBooks/${book.id}`)}
+          >
             Manage Book
           </Button>
         </Stack>

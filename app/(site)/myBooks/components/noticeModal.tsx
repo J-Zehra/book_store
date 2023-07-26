@@ -12,10 +12,12 @@ export default function NoticeModal({
   setOpenModal,
   openModal,
   bookId,
+  action,
 }: {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   openModal: boolean;
   bookId: string;
+  action?: () => void;
 }) {
   const handleClose = () => {
     setOpenModal(false);
@@ -40,6 +42,9 @@ export default function NoticeModal({
         updateLocalBookState();
         setDeleting(false);
         setOpenModal(false);
+        if (action) {
+          action();
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -84,7 +89,7 @@ export default function NoticeModal({
           </Typography>
           <Stack direction="row" spacing={2}>
             <Button variant="outlined" onClick={() => setOpenModal(false)}>
-              Go back
+              Cancel
             </Button>
             <LoadingButton
               loading={deleting}
