@@ -1,7 +1,7 @@
 "use client";
 
 import HomeLoading from "@/components/homeLoading";
-import { cartItemSelector, cartItemState } from "@/state/atom/cart";
+import { cartItemState } from "@/state/atom/cart";
 import { userDataState } from "@/state/atom/user";
 import { FetchedCart, SessionUserData } from "@/types";
 import { useSession } from "next-auth/react";
