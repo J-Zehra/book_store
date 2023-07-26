@@ -1,31 +1,29 @@
 "use client";
 
-import useSessionData from "@/hooks/useSessionData";
-import { cartItemState } from "@/state/atom/cart";
+import HomeLoading from "@/components/homeLoading";
+import { cartItemSelector, cartItemState } from "@/state/atom/cart";
 import { userDataState } from "@/state/atom/user";
-import { cartItemsSelector } from "@/state/selector/cartItemsSelector";
-import { FetchedCart } from "@/types";
-import React, { useEffect } from "react";
+import { FetchedCart, SessionUserData } from "@/types";
+import { useSession } from "next-auth/react";
+import React, { ReactNode, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-export default function Loadables({ children }: { children: React.ReactNode }) {
-  const { userData, status } = useSessionData();
-  const [user, setUserData] = useRecoilState(userDataState);
+export default function Loadables({ children }: { children: ReactNode }) {
+  const { data, status } = useSession();
+  const [cartItem, setCartItem] = useRecoilState(cartItemState);
+  const userData: SessionUserData = data?.user as SessionUserData;
+  const [user, setUser] = useRecoilState(userDataState);
 
-  const cartItems = useRecoilValue(cartItemsSelector) as FetchedCart[];
-  const [cartItemLocalState, setCartItemLocalState] =
-    useRecoilState(cartItemState);
+  if (status === "unauthenticated") {
+    return children;
+  }
 
-  useEffect(() => {
-    if (cartItems) {
-      setCartItemLocalState(cartItems);
-    }
-  }, [cartItems, setCartItemLocalState]);
-  useEffect(() => {
-    if (status === "authenticated" && userData) {
-      setUserData(userData);
-    }
-  }, [setUserData, status, userData]);
+  if (status === "loading") {
+    return <HomeLoading />;
+  }
 
-  return children;
+  if (status === "authenticated") {
+    setUser(userData);
+    return children;
+  }
 }

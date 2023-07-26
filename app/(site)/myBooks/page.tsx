@@ -7,17 +7,19 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import BookItem from "./components/bookItem";
 import { authorBookLocal } from "@/state/atom/authorBooksLocal";
+import { useQuery } from "react-query";
+import { FetchedBookData } from "@/types";
+import { userDataState } from "@/state/atom/user";
+import axios from "axios";
 
 export default function MyBooks() {
-  const books = useRecoilValue(authorBookListSelector);
-  const [localBookState, setLocalBookState] = useRecoilState(authorBookLocal);
-  console.log(books);
+  const user = useRecoilValue(userDataState);
 
-  useEffect(() => {
-    if (books) {
-      setLocalBookState(books);
-    }
-  }, [books, setLocalBookState]);
+  const { data: bookList, refetch } = useQuery(["my-books"], async () => {
+    const res = await axios.get(`/api/books/author/${user.id}`);
+    console.log(res);
+    return res.data as FetchedBookData[];
+  });
 
   return (
     <ObserverWrapper name="MyBook">
@@ -26,9 +28,10 @@ export default function MyBooks() {
           <Typography fontSize="1.4rem" fontWeight="bold" color="primary.dark">
             My Books
           </Typography>
-          <Stack spacing={2} width="100%" mt={5}>
-            {localBookState.map((book) => {
-              return <BookItem key={book.id} book={book} />;
+          <Typography mt={5} mb={2}>{bookList?.length} total books</Typography>
+          <Stack spacing={2} width="100%">
+            {bookList?.map((book) => {
+              return <BookItem key={book.id} book={book} refetch={refetch} />;
             })}
           </Stack>
         </Container>

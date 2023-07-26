@@ -5,17 +5,18 @@ import { Box, Container, Divider, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { BarChart } from "./components/barChart";
 import axios from "axios";
-import useSessionData from "@/hooks/useSessionData";
+import { useRecoilValue } from "recoil";
+import { userDataState } from "@/state/atom/user";
 
 export default function AnalyticsPage() {
-  const { userData } = useSessionData();
+  const user = useRecoilValue(userDataState);
   const [totalEarnings, setTotalEarnings] = useState<number>(0);
   const [totalBooksSold, setTotalBooksSold] = useState<number>(0);
   const [totalActiveBooks, setTotalActiveBooks] = useState<number>(0);
 
   useEffect(() => {
     axios
-      .get(`/api/author/${userData.id}/total-earnings`)
+      .get(`/api/author/${user.id}/total-earnings`)
       .then((res) => {
         setTotalEarnings(res.data.totalEarnings);
         console.log(res.data.totalEarnings);
@@ -25,7 +26,7 @@ export default function AnalyticsPage() {
       });
 
     axios
-      .get(`/api/author/${userData.id}/total-books-sold`)
+      .get(`/api/author/${user.id}/total-books-sold`)
       .then((res) => {
         setTotalBooksSold(res.data.totalBooksSold);
         console.log(res.data.totalBooksSold);
@@ -35,7 +36,7 @@ export default function AnalyticsPage() {
       });
 
     axios
-      .get(`/api/author/${userData.id}/total-active-books`)
+      .get(`/api/author/${user.id}/total-active-books`)
       .then((res) => {
         setTotalActiveBooks(res.data.totalActiveBooks);
         console.log(res.data.totalActiveBooks);
@@ -43,7 +44,7 @@ export default function AnalyticsPage() {
       .catch((err) => {
         console.log(err);
       });
-  }, [userData.id]);
+  }, [user.id]);
 
   return (
     <ObserverWrapper name="Analytics">

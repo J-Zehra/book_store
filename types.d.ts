@@ -44,7 +44,7 @@ type FetchedBookData = {
   author: { profile: { penName: string } };
   authorId: string;
   title: string;
-  cover: string?;
+  cover: string;
   price: number;
   publisher: string;
   genres: string[] | null;
@@ -98,4 +98,11 @@ type BookFullDetails = {
 type BookRating = {
   id: string;
   rating: number;
+};
+
+type Author = {
+  avatar: string?;
+  id: string;
+  books: [{ genres: [] }];
+  profile: { penName: string };
 };

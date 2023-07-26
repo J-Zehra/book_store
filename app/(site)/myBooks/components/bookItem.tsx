@@ -6,8 +6,21 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import NoticeModal from "./noticeModal";
 import { useRouter } from "next/navigation";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from "react-query";
 
-export default function BookItem({ book }: { book: FetchedBookData }) {
+export default function BookItem({
+  book,
+  refetch,
+}: {
+  book: FetchedBookData;
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<FetchedBookData[], unknown>>;
+}) {
   const navigate = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [bookIdToDelete, setBookIdToDelete] = useState<string>("");
@@ -78,6 +91,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
           openModal={openModal}
           setOpenModal={setOpenModal}
           bookId={bookIdToDelete}
+          action={() => refetch()}
         />
       ) : null}
     </Paper>

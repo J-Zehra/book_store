@@ -7,21 +7,20 @@ import Filters from "./components/filters";
 import BookItem from "./components/bookItem";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { bookListState } from "@/state/atom/books";
-import { BookData, FetchedBookData } from "@/types";
+import { BookData, FetchedBookData, FetchedCart } from "@/types";
 import axios from "axios";
+import { useQuery } from "react-query";
+import { cartItemState } from "@/state/atom/cart";
+import { userDataState } from "@/state/atom/user";
 
 export default function Books() {
-  const [bookList, setBookList] = useRecoilState(bookListState);
+  const { data: bookList } = useQuery(["books"], async () => {
+    const res = await axios.get("/api/books");
+    console.log(res);
+    return res.data as FetchedBookData[];
+  });
 
-  useEffect(() => {
-    axios
-      .get("/api/books")
-      .then((res) => {
-        console.log(res);
-        setBookList(res.data);
-      })
-      .then((err) => console.log(err));
-  }, [bookList, setBookList]);
+  console.log("Here");
 
   return (
     <ObserverWrapper name="Books">
@@ -35,7 +34,7 @@ export default function Books() {
             marginTop="4rem"
             marginBottom="1.5rem"
           >
-            1,234 books available
+            {bookList?.length} books available
           </Typography>
           <Stack direction="row" useFlexGap flexWrap="wrap" spacing={3}>
             {bookList?.map((book) => {

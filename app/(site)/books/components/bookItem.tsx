@@ -8,60 +8,61 @@ import {
   Button,
   BoxProps,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
 import { BookCartData, FetchedBookData, FetchedCart } from "@/types";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { cartItemState } from "@/state/atom/cart";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 import CheckIcon from "@mui/icons-material/Check";
-import { userDataState } from "@/state/atom/user";
-import { useSession } from "next-auth/react";
 import LoginNoticeModal from "../../../../reusables/loginNoticeModal";
 import { useRouter } from "next/navigation";
-import useSessionData from "@/hooks/useSessionData";
 import moment from "moment";
+import { userDataState } from "@/state/atom/user";
+import { selectedCartItems } from "@/state/atom/order";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useQuery,
+} from "react-query";
+import { LoadingButton } from "@mui/lab";
 
 export default function BookItem({ book }: { book: FetchedBookData }) {
   const navigate = useRouter();
-  const { status, userData } = useSessionData();
-  const [cartItemLocalState, setCartItemLocalState] =
-    useRecoilState(cartItemState);
+  const user = useRecoilValue(userDataState);
+  const [loading, setLoading] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const { data: cartItems, refetch } = useQuery(["cartItems", user.id], async () => {
+    const res = await axios.get(`/api/cart/get/${user.id}`);
+    console.log(res);
+    return res.data.items as FetchedCart[];
+  });
 
   const handleAddToCartClick = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
-    if (status === "unauthenticated") {
+    if (!user.id) {
       setOpenModal(true);
       return;
     }
 
+    setLoading(true);
+
     const data: BookCartData = {
       bookId: book.id,
       quantity: 1,
-      userId: book.authorId,
+      userId: user.id,
     };
-
-    const localCartState: FetchedCart = {
-      book: {
-        author: { profile: { penName: book.author.profile.penName } },
-        cover: book.cover || "",
-        price: book.price,
-        title: book.title,
-      },
-      bookId: book.id,
-      quantity: 1,
-    };
-
-    setCartItemLocalState((prev) => [...prev, localCartState]);
 
     await axios
       .post("/api/cart/add", data)
       .then((res) => {
+        refetch();
+        setLoading(false);
         console.log(res);
       })
       .catch((err) => {
@@ -72,8 +73,6 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
   const handleBookItemClick = () => {
     navigate.push(`books/${book.id}`);
   };
-  console.log(book);
-  console.log(cartItemLocalState);
 
   return (
     <Paper elevation={2}>
@@ -171,7 +170,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                 <Typography fontWeight="bold" color="primary" fontSize="1.3rem">
                   ${book.price}
                 </Typography>
-                {cartItemLocalState.some((item) => item.bookId === book.id) ? (
+                {cartItems?.some((item) => item.bookId === book.id) ? (
                   <IconButton
                     sx={{
                       bgcolor: "rgba(0, 0, 100, .1)",
@@ -183,7 +182,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                   >
                     <CheckIcon style={{ fontSize: "1.5rem" }} />
                   </IconButton>
-                ) : book.authorId === userData?.id ? (
+                ) : book.authorId === user?.id ? (
                   <Button
                     color="primary"
                     variant="contained"
@@ -192,17 +191,21 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                     Manage
                   </Button>
                 ) : (
-                  <IconButton
+                  <LoadingButton
+                    loading={loading}
                     sx={{
+                      minWidth: "0",
+                      padding: ".8rem",
+                      borderRadius: "5rem",
                       bgcolor: "rgba(0, 0, 100, .1)",
                       ":hover": { bgcolor: "rgba(0, 0, 100, .2)" },
                     }}
-                    size="large"
+                    size="small"
                     color="primary"
                     onClick={handleAddToCartClick}
                   >
                     <AddShoppingCartIcon style={{ fontSize: "1.5rem" }} />
-                  </IconButton>
+                  </LoadingButton>
                 )}
               </Stack>
             </Stack>

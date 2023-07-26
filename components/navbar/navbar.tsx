@@ -15,10 +15,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useState } from "react";
 import HideOnScroll from "@/reusables/hideOnScroll";
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { m } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import { cartItemState } from "@/state/atom/cart";
 import LoginNoticeModal from "@/reusables/loginNoticeModal";
@@ -28,27 +26,32 @@ import DropDownMenu from "./components/dropDownMenu";
 import SearchField from "./components/searchField";
 import { Role } from "@prisma/client";
 import AuthorLinks from "@/authorComponents/authorLinks";
-import useSessionData from "@/hooks/useSessionData";
+import { userDataState } from "@/state/atom/user";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { FetchedCart } from "@/types";
 
 export default function Navbar() {
-  const { userData, status } = useSessionData();
-  const cartItem = useRecoilValue(cartItemState);
+  const user = useRecoilValue(userDataState);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const currentPath = usePathname();
   const navigate = useRouter();
 
+  const { data: cartItems } = useQuery(["cartItems", user.id], () => {
+    return axios.get(`/api/cart/get/${user.id}`).then((res) => {
+      console.log(res);
+      return res.data.items as FetchedCart[];
+    });
+  });
+
   const handleCartClick = () => {
-    if (status === "unauthenticated") {
+    if (!user.id) {
       setOpenModal(true);
       return;
     }
-
     navigate.push("cart");
   };
-
-  console.log(userData);
-
   return currentPath === "/login" || currentPath === "/register" ? null : (
     <HideOnScroll>
       <AppBar
@@ -83,26 +86,19 @@ export default function Navbar() {
               <Navlinks links={["Home", "About", "Books", "Authors"]} />
             </Box>
             <Stack direction="row" spacing={2} alignItems="center">
-              {userData && userData.role === Role.AUTHOR ? (
-                <AuthorLinks />
-              ) : (
-                <SearchField />
-              )}
+              {user?.role === Role.AUTHOR ? <AuthorLinks /> : <SearchField />}
               <IconButton onClick={handleCartClick}>
-                <Badge badgeContent={cartItem.length} color="error">
+                <Badge badgeContent={cartItems?.length} color="error">
                   <ShoppingCartIcon />
                 </Badge>
               </IconButton>
-              {status === "authenticated" ? (
+              {user.id ? (
                 <IconButton>
                   <NotificationsIcon />
                 </IconButton>
               ) : null}
-              {status === "authenticated" ? (
-                <ProfileAvatar
-                  setAnchorEl={setAnchorEl}
-                  username={userData.name}
-                />
+              {user.id ? (
+                <ProfileAvatar setAnchorEl={setAnchorEl} username={user.name} />
               ) : (
                 <CtaButton />
               )}

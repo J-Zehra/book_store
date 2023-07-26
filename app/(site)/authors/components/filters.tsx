@@ -11,7 +11,7 @@ export default function Filters() {
         <RatingFilter />
         <SeniorityFilter />
       </Stack>
-      <SearchFilter />
+      {/* <SearchFilter /> */}
     </Stack>
   );
 }

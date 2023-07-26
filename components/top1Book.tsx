@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Icon,
+  IconButton,
   Paper,
   Stack,
   Typography,
@@ -15,29 +16,72 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
 import { useRouter } from "next/navigation";
-import { FetchedBookData } from "@/types";
+import { BookCartData, FetchedBookData, FetchedCart } from "@/types";
 import axios from "axios";
 import moment from "moment";
+import { useRecoilValue } from "recoil";
+import { userDataState } from "@/state/atom/user";
+import { LoadingButton } from "@mui/lab";
+import { useQuery } from "react-query";
+import CheckIcon from "@mui/icons-material/Check";
+import LoginNoticeModal from "@/reusables/loginNoticeModal";
 
 export default function Top1Book() {
   const navigate = useRouter();
+  const user = useRecoilValue(userDataState);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const { data: cartItems, refetch } = useQuery(
+    ["cartItems", user.id],
+    async () => {
+      const res = await axios.get(`/api/cart/get/${user.id}`);
+      console.log(res);
+      return res.data.items as FetchedCart[];
+    }
+  );
+
+  const { data: book } = useQuery(["top-1"], async () => {
+    const res = await axios.get("/api/books/top1");
+    console.log(res);
+    return res.data[0] as FetchedBookData;
+  });
+
   const handleVisitClick = () => {
-    navigate.push("books/id");
+    navigate.push(`books/${book?.id}`);
   };
 
-  const [book, setBook] = useState<FetchedBookData>();
+  const handleAddToCartClick = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    if (!user.id) {
+      setOpenModal(true);
+      return;
+    }
 
-  useEffect(() => {
-    axios
-      .get("/api/books/top1")
+    setLoading(true);
+
+    let data: BookCartData | null = null;
+    if (book) {
+      data = {
+        bookId: book.id,
+        quantity: 1,
+        userId: user.id,
+      };
+    }
+
+    await axios
+      .post("/api/cart/add", data)
       .then((res) => {
-        console.log(res.data);
-        setBook(res.data[0]);
+        setLoading(false);
+        refetch();
+        console.log(res);
       })
-      .then((err) => {
+      .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
   return (
     <Stack
@@ -51,6 +95,7 @@ export default function Top1Book() {
       boxShadow="2px 4px 8px rgba(0, 0, 10, .2)"
       position="relative"
     >
+      <LoginNoticeModal openModal={openModal} setOpenModal={setOpenModal} />
       <Box
         bgcolor="rgba(0, 0, 0, .2)"
         borderRadius=".3rem"
@@ -137,15 +182,31 @@ export default function Top1Book() {
               >
                 More info
               </Button>
-              <Button
-                startIcon={<AddShoppingCartIcon />}
-                variant="contained"
-                fullWidth
-                size="medium"
-                sx={{ fontSize: ".9rem", padding: ".6rem" }}
-              >
-                Add to cart
-              </Button>
+              {cartItems?.some((item) => item.bookId === book?.id) ? (
+                <IconButton
+                  sx={{
+                    bgcolor: "rgba(0, 0, 100, .1)",
+                    ":hover": { bgcolor: "rgba(0, 0, 100, .2)" },
+                  }}
+                  size="large"
+                  color="primary"
+                  disabled
+                >
+                  <CheckIcon style={{ fontSize: "1.5rem" }} />
+                </IconButton>
+              ) : (
+                <LoadingButton
+                  loading={loading}
+                  startIcon={<AddShoppingCartIcon />}
+                  variant="contained"
+                  fullWidth
+                  size="medium"
+                  onClick={handleAddToCartClick}
+                  sx={{ fontSize: ".9rem", padding: ".6rem" }}
+                >
+                  Add to cart
+                </LoadingButton>
+              )}
             </Stack>
           </Stack>
         </Stack>

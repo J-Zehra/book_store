@@ -5,6 +5,8 @@ import Footer from "@/components/footer";
 import AuthContext from "@/context/authContext";
 import AppContext from "@/context/appContext";
 import Loadables from "@/context/loadables";
+import { QueryClientProvider } from "react-query";
+import QueryProvider from "@/context/queryProvider";
 
 export const metadata = {
   title: "Mema Book Store",
@@ -27,13 +29,15 @@ export default function RootLayout({
       <body style={{ margin: "0" }} className={open_sans.className}>
         <AuthContext>
           <AppContext>
-            <Loadables>
-              <ThemeWrapper>
-                <Navbar />
-                {children}
-                <Footer />
-              </ThemeWrapper>
-            </Loadables>
+            <ThemeWrapper>
+              <Loadables>
+                <QueryProvider>
+                  <Navbar />
+                  {children}
+                </QueryProvider>
+              </Loadables>
+              <Footer />
+            </ThemeWrapper>
           </AppContext>
         </AuthContext>
       </body>

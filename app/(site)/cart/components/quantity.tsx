@@ -8,21 +8,12 @@ import { cartItemState } from "@/state/atom/cart";
 import { selectedCartItems } from "@/state/atom/order";
 
 export default function Quantity({ item }: { item: FetchedCart }) {
-  const [cartItemLocalState, setCartItemLocalState] =
-    useRecoilState(cartItemState);
   const [selectedCartItem, setSelectedCartItem] =
     useRecoilState(selectedCartItems);
 
   const [quantity, setQuantity] = useState<number>(item.quantity);
 
   useEffect(() => {
-    const updatedCart = cartItemLocalState.map((cartItem) => {
-      if (cartItem.id === item.id) {
-        return { ...cartItem, quantity };
-      }
-      return cartItem;
-    });
-
     const updateSelectedItem = selectedCartItem.map((selected) => {
       if (selected.id === item.id) {
         return { ...selected, quantity };
@@ -31,11 +22,10 @@ export default function Quantity({ item }: { item: FetchedCart }) {
     });
 
     setSelectedCartItem(updateSelectedItem);
-    setCartItemLocalState(updatedCart);
   }, [quantity]);
 
   return (
-    <Stack direction="row" spacing={2} alignItems="center">
+    <Stack direction="row" spacing={1} ml={5} alignItems="center">
       <IconButton
         disabled={quantity <= 1}
         onClick={() => setQuantity((prev) => prev - 1)}
@@ -52,7 +42,7 @@ export default function Quantity({ item }: { item: FetchedCart }) {
       >
         <RemoveIcon sx={{ fontSize: "1rem" }} />
       </IconButton>
-      <Typography>{quantity}</Typography>
+      <Typography fontSize=".8rem">{quantity}</Typography>
       <IconButton
         color="primary"
         onClick={() => setQuantity((prev) => prev + 1)}

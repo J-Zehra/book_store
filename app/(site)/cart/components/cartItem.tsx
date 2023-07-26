@@ -9,32 +9,43 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 import { cartItemState } from "@/state/atom/cart";
 import { selectedCartItems } from "@/state/atom/order";
 import Quantity from "./quantity";
 import Image from "next/image";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from "react-query";
+import { LoadingButton } from "@mui/lab";
 
-export default function CartItem({ item }: { item: FetchedCart }) {
-  const [cartItemLocalState, setCartItemLocalState] =
-    useRecoilState(cartItemState);
+export default function CartItem({
+  item,
+  refetch,
+}: {
+  item: FetchedCart;
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<FetchedCart[], unknown>>;
+}) {
+  console.log(item);
   const [selectedCartItem, setSelectedCartItem] =
     useRecoilState(selectedCartItems);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleDeleteItem = async () => {
-    const newList = cartItemLocalState.filter((cartItem) => {
-      return item.id !== cartItem.id;
-    });
-
-    setCartItemLocalState(newList);
-
-    axios
+    setLoading(true);
+    await axios
       .delete("/api/cart/delete", { params: { id: item.id } })
       .then((res) => {
         console.log(res);
+        setLoading(false);
+        refetch();
       })
       .catch((err) => {
         console.log(err);
@@ -103,8 +114,8 @@ export default function CartItem({ item }: { item: FetchedCart }) {
               >
                 ${item.book.price}
               </Typography>
-              <Chip label={`x${item.quantity}`} size="small" />
-              <Quantity item={item} />
+              <Chip label={`x${item?.quantity}`} size="small" />
+              {/* <Quantity item={item} /> */}
             </Stack>
           </Stack>
         </Stack>
@@ -120,9 +131,12 @@ export default function CartItem({ item }: { item: FetchedCart }) {
             }}
             onChange={handleChange}
           />
-          <IconButton
-            color="error"
+          <LoadingButton
+            loading={loading}
             sx={{
+              minWidth: "0",
+              padding: ".8rem",
+              borderRadius: "5rem",
               transition: "all .3s ease",
               bgcolor: "rgba(100, 0, 0, .1)",
               p: "1rem",
@@ -130,10 +144,12 @@ export default function CartItem({ item }: { item: FetchedCart }) {
                 bgcolor: "rgba(100, 0, 0, .2)",
               },
             }}
+            size="small"
+            color="error"
             onClick={handleDeleteItem}
           >
             <DeleteIcon />
-          </IconButton>
+          </LoadingButton>
         </Stack>
       </Stack>
     </Paper>

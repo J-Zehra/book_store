@@ -1,3 +1,4 @@
+import { Author } from "@/types";
 import {
   Avatar,
   Paper,
@@ -18,7 +19,7 @@ const StyledRating = styled(Rating)({
   },
 });
 
-export default function AuthorItem() {
+export default function AuthorItem({ author }: { author: Author }) {
   return (
     <Paper elevation={2}>
       <Stack
@@ -32,49 +33,46 @@ export default function AuthorItem() {
           transition: "all .3s ease",
         }}
       >
-        <Avatar sx={{ height: "6rem", width: "6rem" }} />
+        <Avatar sx={{ height: "6rem", width: "6rem", bgcolor: "primary" }}>
+          {author.profile.penName.at(0)}
+        </Avatar>
         <Stack direction="column" justifyContent="space-between">
           <Stack spacing={1}>
             <Typography fontWeight="500" fontSize="1.1rem">
-              Pen name
+              {author.profile.penName}
             </Typography>
             <StyledRating
               name="customized-color"
-              defaultValue={2}
+              defaultValue={0}
               precision={0.5}
               readOnly
               size="small"
             />
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Button
-              variant="outlined"
-              sx={{
-                fontSize: ".5rem",
-                borderRadius: "10rem",
-                padding: ".1rem .5rem",
-                bgcolor: "rgba(0, 0, 100, .05)",
-                minWidth: "0",
-                width: "fit-content",
-              }}
-              size="small"
-            >
-              Action
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{
-                fontSize: ".5rem",
-                borderRadius: "10rem",
-                padding: ".1rem .5rem",
-                bgcolor: "rgba(0, 0, 100, .05)",
-                minWidth: "0",
-                width: "fit-content",
-              }}
-              size="small"
-            >
-              Comedy
-            </Button>
+            {author.books[0]?.genres.map((genre, index) => {
+              if (index < 2) {
+                return (
+                  <Button
+                    key={genre}
+                    variant="outlined"
+                    sx={{
+                      fontSize: ".5rem",
+                      borderRadius: "10rem",
+                      padding: ".1rem .5rem",
+                      bgcolor: "rgba(0, 0, 100, .05)",
+                      minWidth: "0",
+                      width: "fit-content",
+                    }}
+                    size="small"
+                  >
+                    {genre}
+                  </Button>
+                );
+              } else {
+                return null;
+              }
+            })}
           </Stack>
         </Stack>
       </Stack>
