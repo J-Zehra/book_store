@@ -2,15 +2,26 @@
 
 import ObserverWrapper from "@/reusables/observerWrapper";
 import { Box, Container, Stack, Pagination, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import Filters from "./components/filters";
 import BookItem from "./components/bookItem";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { bookListState } from "@/state/atom/books";
 import { BookData, FetchedBookData } from "@/types";
+import axios from "axios";
 
 export default function Books() {
-  const bookList = useRecoilValue(bookListState) as FetchedBookData[];
+  const [bookList, setBookList] = useRecoilState(bookListState);
+
+  useEffect(() => {
+    axios
+      .get("/api/books")
+      .then((res) => {
+        console.log(res);
+        setBookList(res.data);
+      })
+      .then((err) => console.log(err));
+  }, [bookList, setBookList]);
 
   return (
     <ObserverWrapper name="Books">

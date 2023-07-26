@@ -1,7 +1,8 @@
 import prisma from "@/lib/prismadb";
+import { Error } from "mongoose";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const books = await prisma.book.findMany({
       include: {
@@ -16,6 +17,6 @@ export async function GET() {
     });
     return NextResponse.json(books);
   } catch (error) {
-    return new NextResponse("Fetch Error");
+    return new NextResponse("Fetch book error");
   }
 }
