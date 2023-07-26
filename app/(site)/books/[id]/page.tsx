@@ -120,7 +120,7 @@ export default function BookInfo() {
             <AboutAuthor bio={bookData?.author.profile.bio} />
           </Stack>
         </Stack>
-        <MoreFromAuthor />
+        <MoreFromAuthor id={bookData?.authorId} />
       </Container>
     </Box>
   );

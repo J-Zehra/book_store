@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prismadb";
 import { NewUser } from "@/types";
+import { Role } from "@/utils/enum";
 
 export async function POST(request: Request) {
   // Check the request method
@@ -14,6 +15,10 @@ export async function POST(request: Request) {
 
   // Destructure email and password directly from the body
   const { username, penName, email, password, role } = newUserData;
+
+  if(role === Role.AUTHOR && !penName){
+    return new NextResponse("Please enter your pen name", { status: 400 });
+  }
 
   // CHECK IF THE INPUT IS NOT EMPTY
   if (!email || !password || !username) {

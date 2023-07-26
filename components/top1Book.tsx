@@ -11,16 +11,33 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import LinesEllipsis from "react-lines-ellipsis";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
 import { useRouter } from "next/navigation";
+import { FetchedBookData } from "@/types";
+import axios from "axios";
+import moment from "moment";
 
 export default function Top1Book() {
   const navigate = useRouter();
   const handleVisitClick = () => {
     navigate.push("books/id");
   };
+
+  const [book, setBook] = useState<FetchedBookData>();
+
+  useEffect(() => {
+    axios
+      .get("/api/books/top1")
+      .then((res) => {
+        console.log(res.data);
+        setBook(res.data[0]);
+      })
+      .then((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Stack
@@ -42,7 +59,7 @@ export default function Top1Book() {
         flex={1}
       >
         <Image
-          src="/book-cover.png"
+          src={book?.cover || "/book-cover.png"}
           width={500}
           height={500}
           alt="Book Cover"
@@ -57,18 +74,20 @@ export default function Top1Book() {
       </Box>
       <Stack width="100%" spacing={1} height="100%" flex={1}>
         <Typography fontWeight="bold" fontSize="1.3rem">
-          Harry Potter and the Sorcerer’s Stone
+          {book?.title}
         </Typography>
         <Divider sx={{ marginBlock: ".6rem", opacity: ".5" }} />
         <Stack direction="row" alignItems="center" spacing="1rem">
           <Typography color="primary" fontSize=".8rem">
-            JK Rowling
+            {book?.author.profile.penName}
           </Typography>
           <Divider
             orientation="vertical"
             sx={{ height: "1rem", opacity: ".5" }}
           />
-          <Typography fontSize=".8rem">January 10, 2022</Typography>
+          <Typography fontSize=".8rem">
+            {moment(book?.createdAt).format("LL")}
+          </Typography>
         </Stack>
         <Stack height="100%" spacing={1} width="100%">
           <Box
@@ -78,8 +97,8 @@ export default function Top1Book() {
             fontSize="1rem"
           >
             <LinesEllipsis
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-              maxLine="8"
+              text={book?.description}
+              maxLine="10"
               ellipsis="..."
               trimRight
               basedOn="letters"
@@ -93,7 +112,7 @@ export default function Top1Book() {
               alignItems="center"
             >
               <Typography fontWeight="bold" color="primary" fontSize="1.6rem">
-                $100
+                ${book?.price}
               </Typography>
               <Stack spacing={2.5} direction="row">
                 <Stack
@@ -104,19 +123,7 @@ export default function Top1Book() {
                 >
                   <LoyaltyIcon sx={{ color: "primary.main" }} />
                   <Typography fontSize=".8rem" color="primary">
-                    100
-                  </Typography>
-                </Stack>
-                <Stack
-                  alignItems="center"
-                  justifyContent="center"
-                  direction="row"
-                  color="primary"
-                  spacing={0.8}
-                >
-                  <RemoveRedEyeIcon sx={{ color: "primary.main" }} />
-                  <Typography fontSize=".8rem" color="primary">
-                    100
+                    {book?.bookSale?.length}
                   </Typography>
                 </Stack>
               </Stack>

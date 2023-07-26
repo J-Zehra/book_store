@@ -88,6 +88,7 @@ type BookFullDetails = {
   createdAt: string;
   cover: string;
   description: string;
+  authorId: string;
   author: { avatar: string; profile: { penName: string; bio: string } };
   bookSale: [];
   genres: string[];

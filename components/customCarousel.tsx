@@ -10,11 +10,16 @@ import Image from "next/image";
 import { CustomRating } from "@/reusables/styleRating";
 import CallMissedOutgoingRoundedIcon from "@mui/icons-material/CallMissedOutgoingRounded";
 import { useRouter } from "next/navigation";
+import { FetchedBookData } from "@/types";
 
-export default function CustomCarousel() {
+export default function CustomCarousel({
+  books,
+}: {
+  books?: FetchedBookData[];
+}) {
   const navigate = useRouter();
-  const handleVisitClick = () => {
-    navigate.push("books/id");
+  const handleVisitClick = (id: string) => {
+    navigate.push(`books/${id}`);
   };
 
   return (
@@ -22,7 +27,6 @@ export default function CustomCarousel() {
       pagination={{ dynamicBullets: true }}
       navigation
       slidesPerView={4}
-      loop
       centerInsufficientSlides
       modules={[Pagination, Navigation]}
       style={{
@@ -33,11 +37,10 @@ export default function CustomCarousel() {
         paddingBottom: "2.5rem",
       }}
     >
-      {[...Array(10)].map((_, index) => {
+      {books?.map((book) => {
         return (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={book.id}>
             <Stack
-              key={index}
               width="16rem"
               height="24rem"
               bgcolor="background.paper"
@@ -47,7 +50,7 @@ export default function CustomCarousel() {
               justifyContent="end"
             >
               <Image
-                src="/book-cover.png"
+                src={book.cover || "/book-cover.png"}
                 width={500}
                 height={500}
                 alt="Book Cover"
@@ -69,7 +72,7 @@ export default function CustomCarousel() {
                 borderRadius=".3rem"
                 sx={{
                   background:
-                    "linear-gradient(to top, black, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))",
+                    "linear-gradient(to top, black, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0))",
                 }}
               />
 
@@ -80,19 +83,19 @@ export default function CustomCarousel() {
                   justifyContent="space-between"
                 >
                   <Stack spacing={2}>
-                    <CustomRating size="small" />
+                    <CustomRating size="medium" />
                     <Typography
                       fontWeight="700"
                       fontSize="1.5rem"
                       sx={{ color: "#778DFF" }}
                     >
-                      $100
+                      ${book.price}
                     </Typography>
                   </Stack>
                   <Stack spacing={1}>
                     <IconButton
                       size="medium"
-                      onClick={handleVisitClick}
+                      onClick={() => handleVisitClick(book.id)}
                       sx={{
                         border: "1px dashed #778DFF",
                         padding: ".8rem",

@@ -1,16 +1,32 @@
 import { Box, IconButton, Container, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Top1Book from "./top1Book";
 import Image from "next/image";
 import CallMissedOutgoingRoundedIcon from "@mui/icons-material/CallMissedOutgoingRounded";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { FetchedBookData } from "@/types";
 
 export default function PopularBooks() {
   const navigate = useRouter();
   const handleVisitClick = () => {
     navigate.push("books/id");
   };
+
+  const [books, setBooks] = useState<FetchedBookData[]>();
+
+  useEffect(() => {
+    axios
+      .get("/api/books/top")
+      .then((res) => {
+        console.log(res.data);
+        setBooks(res.data);
+      })
+      .then((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Box
@@ -47,10 +63,10 @@ export default function PopularBooks() {
             alignItems="end"
             justifyContent="end"
           >
-            {[...Array(6)].map((_, index) => {
+            {books?.map((book, index) => {
               return (
                 <Stack
-                  key={index}
+                  key={book.id}
                   width="10rem"
                   height="52%"
                   bgcolor="background.paper"
@@ -60,7 +76,7 @@ export default function PopularBooks() {
                   justifyContent="end"
                 >
                   <Image
-                    src="/book-cover.png"
+                    src={book.cover || "/book-cover.png"}
                     width={500}
                     height={500}
                     alt="Book Cover"
@@ -83,7 +99,7 @@ export default function PopularBooks() {
                     borderRadius=".3rem"
                     sx={{
                       background:
-                        "linear-gradient(to top, black, rgba(0, 0, 0, 0))",
+                        "linear-gradient(to top, black, black, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))",
                     }}
                   />
 
@@ -101,7 +117,7 @@ export default function PopularBooks() {
                       fontSize="1.3rem"
                       sx={{ color: "#778DFF" }}
                     >
-                      $100
+                      ${book.price}
                     </Typography>
                     <Stack direction="column" spacing={1}>
                       <IconButton

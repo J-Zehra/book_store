@@ -4,14 +4,14 @@ import CustomCarousel from "./customCarousel";
 import { FetchedBookData } from "@/types";
 import axios from "axios";
 
-export default function NewReleases() {
+export default function BudgetBooks() {
   const [books, setBooks] = useState<FetchedBookData[]>();
 
   useEffect(() => {
     axios
-      .get("/api/books/new")
+      .get("/api/books/random")
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         setBooks(res.data);
       })
       .then((err) => {
@@ -20,14 +20,14 @@ export default function NewReleases() {
   }, []);
 
   return (
-    <Box bgcolor="background.default">
+    <Box bgcolor="background.default" paddingBottom="2.5rem">
       <Container maxWidth="lg">
         <Stack direction="row" paddingY="2rem" spacing={1}>
           <Typography fontSize="1.2rem" fontWeight="bold">
-            New
+            Low
           </Typography>
           <Typography fontSize="1.2rem" fontWeight="bold" color="primary">
-            Releases
+            Budget?
           </Typography>
         </Stack>
 

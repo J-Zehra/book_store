@@ -7,9 +7,11 @@ import SuccessAnimation from "../../../../../public/animations/success.json";
 export default function SuccessModal({
   setOpenModal,
   openModal,
+  id,
 }: {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   openModal: boolean;
+  id: string;
 }) {
   const handleClose = () => {
     setOpenModal(false);
@@ -57,7 +59,10 @@ export default function SuccessModal({
             <Button variant="outlined" onClick={() => setOpenModal(false)}>
               Publish another book
             </Button>
-            <Button variant="contained" onClick={() => navigate.push("login")}>
+            <Button
+              variant="contained"
+              onClick={() => navigate.push(`/myBooks/${id}`)}
+            >
               Go to manage
             </Button>
           </Stack>

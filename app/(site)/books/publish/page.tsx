@@ -12,7 +12,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import axios from "axios";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import Uploader from "./components/uploader";
@@ -33,6 +33,7 @@ export default function SellBook() {
   >(null);
   const [publishing, setPublishing] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [bookId, setBookId] = useState<string>("");
 
   const emptyAllState = () => {
     setTitle("");
@@ -83,6 +84,7 @@ export default function SellBook() {
         setPublishing(false);
         setOpenModal(true);
         emptyAllState();
+        setBookId(res.data.id);
         console.log(res);
       })
       .catch((err) => {
@@ -94,7 +96,11 @@ export default function SellBook() {
   return (
     <ObserverWrapper name="Publish">
       <Toaster />
-      <SuccessModal openModal={openModal} setOpenModal={setOpenModal} />
+      <SuccessModal
+        id={bookId}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
       <Box paddingY="8rem" bgcolor="background.default">
         <Container maxWidth="lg">
           <Stack direction="row" spacing={2} alignItems="center">
@@ -228,4 +234,8 @@ const genreList = [
   "Adventure",
   "Sports",
   "Western",
+  "Non-fiction",
+  "Science",
+  "Fiction",
+  "War and Military"
 ];

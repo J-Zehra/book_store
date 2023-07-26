@@ -17,6 +17,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { bookListState } from "@/state/atom/books";
 import { userDataState } from "@/state/atom/user";
 import { useEffect } from "react";
+import BudgetBooks from "@/components/budgetBooks";
 
 export default function Home() {
   const { userData, status } = useSessionData();
@@ -28,7 +29,7 @@ export default function Home() {
     }
   }, [setUserData, status, userData]);
 
-  console.log(user)
+  console.log(user);
 
   return (
     <ObserverWrapper name="Home">
@@ -92,6 +93,7 @@ export default function Home() {
       </Box>
       <PopularBooks />
       <NewReleases />
+      <BudgetBooks />
       <BestSellers />
     </ObserverWrapper>
   );

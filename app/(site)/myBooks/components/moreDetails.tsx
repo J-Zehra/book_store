@@ -18,7 +18,7 @@ export default function MoreDetails({
       <Typography fontSize="1.3rem" fontWeight="bold">
         More Details
       </Typography>
-      <Stack>
+      <Stack spacing={2}>
         <Stack direction="row" spacing={1}>
           <Typography>Publisher:</Typography>
           <Typography color="primary">{publisher}</Typography>

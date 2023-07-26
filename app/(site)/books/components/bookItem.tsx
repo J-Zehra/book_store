@@ -145,7 +145,7 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                   variant="outlined"
                   key={genre}
                   sx={{
-                    fontSize: ".5rem",
+                    fontSize: ".6rem",
                     borderRadius: "10rem",
                     padding: ".1rem .5rem",
                     bgcolor: "rgba(0, 0, 100, .05)",
@@ -184,7 +184,11 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                     <CheckIcon style={{ fontSize: "1.5rem" }} />
                   </IconButton>
                 ) : book.authorId === userData?.id ? (
-                  <Button color="primary" variant="contained">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => navigate.push(`/myBooks/${book.id}`)}
+                  >
                     Manage
                   </Button>
                 ) : (
