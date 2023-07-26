@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import { LoadingButton } from "@mui/lab";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Signin() {
   const [email, setEmail] = useState<string>("");
@@ -30,20 +31,23 @@ export default function Signin() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLogginIn(true);
-    await signIn("credentials", { email, password, redirect: false })
-      .then((res) => {
+    await signIn("credentials", { email, password, redirect: false }).then(
+      (res) => {
         console.log(res);
-        setIsLogginIn(false);
-        route.push("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLogginIn(false);
-      });
+        if (res?.error) {
+          setIsLogginIn(false);
+          toast.error(res.error);
+        } else {
+          setIsLogginIn(false);
+          route.push("/");
+        }
+      }
+    );
   };
 
   return (
     <ObserverWrapper name="Signin">
+      <Toaster />
       <Box
         bgcolor="background.default"
         sx={{ justifyContent: "center", alignItems: "center", display: "flex" }}

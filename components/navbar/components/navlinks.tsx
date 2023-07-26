@@ -20,7 +20,7 @@ export default function Navlinks({ links }: { links: string[] }) {
                 <Typography
                   color={activeNav == link ? "primary" : "text.primary"}
                   sx={{
-                    ":hover": { color: "primary.500" },
+                    ":hover": { color: "primary" },
                     transition: "color .3s ease",
                   }}
                 >
@@ -36,9 +36,9 @@ export default function Navlinks({ links }: { links: string[] }) {
                 key={link}
               >
                 <Typography
-                  color={activeNav == link ? "primary.500" : "text.primary"}
+                  color={activeNav == link ? "primary" : "text.primary"}
                   sx={{
-                    ":hover": { color: "primary.500" },
+                    ":hover": { color: "primary" },
                     transition: "color .3s ease",
                   }}
                 >

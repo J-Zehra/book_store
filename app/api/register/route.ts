@@ -17,7 +17,13 @@ export async function POST(request: Request) {
 
   // CHECK IF THE INPUT IS NOT EMPTY
   if (!email || !password || !username) {
-    return new NextResponse("Missing Fields", { status: 400 });
+    return new NextResponse("Please fill all the fields", { status: 400 });
+  }
+
+  if (password.length < 6) {
+    return new NextResponse("Password should be atleast 6 characters", {
+      status: 404,
+    });
   }
 
   // CHECK IF THE USER EXISTS
@@ -29,6 +35,24 @@ export async function POST(request: Request) {
 
   if (exist) {
     return new NextResponse("Email already exists", { status: 409 });
+  }
+
+  // CHECK IF THE PEN NAME ALREADY EXIST
+  const usernameExist = await prisma.user.findUnique({
+    where: { username },
+  });
+
+  if (usernameExist) {
+    return new NextResponse("Username already exists", { status: 409 });
+  }
+
+  // CHECK IF THE PEN NAME ALREADY EXIST
+  const penNameExist = await prisma.profile.findUnique({
+    where: { penName },
+  });
+
+  if (penNameExist) {
+    return new NextResponse("Pen name already exists", { status: 409 });
   }
 
   // HASH THE USER PASSWORD

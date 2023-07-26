@@ -27,6 +27,7 @@ import { Role } from "@/utils/enum";
 import { NewUser } from "@/types";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Register() {
   const navigate = useRouter();
@@ -37,6 +38,14 @@ export default function Register() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isRegistering, setIsRegsitering] = useState<boolean>(false);
+
+  const emptyAllState = () => {
+    setUsername("");
+    setPenName("");
+    setRole(Role.READER);
+    setEmail("");
+    setPassword("");
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,13 +63,14 @@ export default function Register() {
       .post("api/register", newUser)
       .then((res) => {
         console.log(res);
+        emptyAllState();
         setIsRegsitering(false);
         setOpenModal(true);
       })
       .catch((err) => {
         console.log(err);
         setIsRegsitering(false);
-        setOpenModal(true);
+        toast.error(err.response.data);
       });
   };
 
@@ -68,6 +78,7 @@ export default function Register() {
 
   return (
     <ObserverWrapper name="Register">
+      <Toaster />
       <Box
         bgcolor="background.default"
         sx={{ justifyContent: "center", alignItems: "center", display: "flex" }}
@@ -126,8 +137,8 @@ export default function Register() {
                     name="name"
                     required
                     fullWidth
-                    id="name"
-                    label="Name"
+                    id="usernname"
+                    label="Username"
                     autoFocus
                     onChange={(e) => setUsername(e.target.value)}
                   />

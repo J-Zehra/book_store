@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 import prisma from "@/lib/prismadb";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -30,7 +31,7 @@ export const authOptions: NextAuthOptions = {
         // CHECK IF THE EMAIL AND PASSWORD IS THERE
         if (!credentials?.email || !credentials.password) {
           console.log("Error 1");
-          throw new Error("Please enter an email and password");
+          throw new Error("Please fill all the fields");
         }
 
         // CHECK IF THE USER EXISTS
@@ -42,7 +43,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!user || !user?.password) {
           console.log("Error 2");
-          throw new Error("No user found.");
+          throw new Error("No user found");
         }
 
         // CHECK IF THE PASSWORD MATCHES
