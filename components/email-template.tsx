@@ -1,4 +1,3 @@
-import { FetchedCart } from "@/types";
 import * as React from "react";
 
 interface EmailTemplateProps {

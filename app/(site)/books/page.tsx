@@ -5,22 +5,20 @@ import { Box, Container, Stack, Pagination, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import Filters from "./components/filters";
 import BookItem from "./components/bookItem";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { bookListState } from "@/state/atom/books";
 import { BookData, FetchedBookData, FetchedCart } from "@/types";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { cartItemState } from "@/state/atom/cart";
-import { userDataState } from "@/state/atom/user";
 
 export default function Books() {
-  const { data: bookList } = useQuery(["books"], async () => {
-    const res = await axios.get("/api/books");
-    console.log(res);
-    return res.data as FetchedBookData[];
-  });
-
-  console.log("Here");
+  const { data: bookList } = useQuery(
+    ["books"],
+    async () => {
+      const res = await axios.get("/api/books");
+      console.log(res);
+      return res.data as FetchedBookData[];
+    },
+    { refetchOnMount: true }
+  );
 
   return (
     <ObserverWrapper name="Books">

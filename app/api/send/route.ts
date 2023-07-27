@@ -15,9 +15,9 @@ export async function POST(request: Request) {
 
   try {
     const emailOptions: CreateEmailOptions = {
-      from: "MemaBookstore <onboarding@resend.dev>",
+      from: "MemaBookstore",
       to: ["jazencode@gmail.com", email],
-      subject: "Hello world",
+      subject: "Order Confirmation",
       text: "Hello world",
       react: EmailTemplate({ name }),
     };
