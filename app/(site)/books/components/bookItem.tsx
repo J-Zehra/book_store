@@ -35,11 +35,14 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const { data: cartItems, refetch } = useQuery(["cartItems", user.id], async () => {
-    const res = await axios.get(`/api/cart/get/${user.id}`);
-    console.log(res);
-    return res.data.items as FetchedCart[];
-  });
+  const { data: cartItems, refetch } = useQuery(
+    ["cartItems", user.id],
+    async () => {
+      const res = await axios.get(`/api/cart/get/${user.id}`);
+      console.log(res);
+      return res.data.items as FetchedCart[];
+    }
+  );
 
   const handleAddToCartClick = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -186,7 +189,10 @@ export default function BookItem({ book }: { book: FetchedBookData }) {
                   <Button
                     color="primary"
                     variant="contained"
-                    onClick={() => navigate.push(`/myBooks/${book.id}`)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate.push(`/myBooks/${book.id}`);
+                    }}
                   >
                     Manage
                   </Button>

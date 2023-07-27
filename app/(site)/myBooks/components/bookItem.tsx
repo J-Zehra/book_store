@@ -61,7 +61,7 @@ export default function BookItem({
               <Stack direction="row" spacing={1} alignItems="center">
                 <LoyaltyIcon color="primary" sx={{ fontSize: ".8rem" }} />
                 <Typography fontSize=".8rem">Total Unit Sold: </Typography>
-                <Typography fontSize=".8rem">{book.bookSale.length}</Typography>
+                <Typography fontSize=".8rem">{book.bookSale?.length}</Typography>
               </Stack>
             </Stack>
           </Stack>

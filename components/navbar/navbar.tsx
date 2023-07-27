@@ -76,17 +76,17 @@ export default function Navbar() {
                 style={{ textDecoration: "inherit", color: "inherit" }}
               >
                 <Image
-                  src="/logo.svg"
+                  src="/logo.png"
                   alt="Logo"
                   width={500}
                   height={50}
-                  style={{ width: "6rem", height: "100%" }}
+                  style={{ width: "8rem", height: "100%" }}
                 />
               </Link>
               <Navlinks links={["Home", "About", "Books", "Authors"]} />
             </Box>
             <Stack direction="row" spacing={2} alignItems="center">
-              {user?.role === Role.AUTHOR ? <AuthorLinks /> : <SearchField />}
+              {user?.role === Role.AUTHOR ? <AuthorLinks /> : null}
               <IconButton onClick={handleCartClick}>
                 <Badge badgeContent={cartItems?.length} color="error">
                   <ShoppingCartIcon />

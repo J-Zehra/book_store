@@ -34,12 +34,12 @@ export default function AuthorItem({ author }: { author: Author }) {
         }}
       >
         <Avatar sx={{ height: "6rem", width: "6rem", bgcolor: "primary" }}>
-          {author.profile.penName.at(0)}
+          {author?.profile?.penName.at(0)}
         </Avatar>
         <Stack direction="column" justifyContent="space-between">
           <Stack spacing={1}>
             <Typography fontWeight="500" fontSize="1.1rem">
-              {author.profile.penName}
+              {author?.profile?.penName}
             </Typography>
             <StyledRating
               name="customized-color"
@@ -50,7 +50,7 @@ export default function AuthorItem({ author }: { author: Author }) {
             />
           </Stack>
           <Stack direction="row" spacing={1}>
-            {author.books[0]?.genres.map((genre, index) => {
+            {author?.books[0]?.genres.map((genre, index) => {
               if (index < 2) {
                 return (
                   <Button
