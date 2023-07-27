@@ -3,6 +3,7 @@ import React from "react";
 import Address from "./address";
 import { useRecoilValue } from "recoil";
 import { selectedCartItems } from "@/state/atom/order";
+import { useRouter } from "next/navigation";
 
 export default function OrderSummary() {
   const items = useRecoilValue(selectedCartItems);
@@ -14,6 +15,11 @@ export default function OrderSummary() {
     });
 
     return total;
+  };
+  const navigate = useRouter();
+
+  const handleCheckout = () => {
+    navigate.push("/checkout");
   };
 
   return (
@@ -30,7 +36,12 @@ export default function OrderSummary() {
               ${calculateTotalPrice()}
             </Typography>
           </Stack>
-          <Button variant="contained" color="primary" sx={{ padding: "1rem" }}>
+          <Button
+            variant="contained"
+            onClick={handleCheckout}
+            color="primary"
+            sx={{ padding: "1rem" }}
+          >
             Proceed to checkout
           </Button>
         </Stack>

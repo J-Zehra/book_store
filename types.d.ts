@@ -106,3 +106,14 @@ type Author = {
   books: [{ genres: [] }];
   profile: { penName: string };
 };
+
+type ShippingAddress = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+};

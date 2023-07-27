@@ -29,6 +29,7 @@ import moment from "moment";
 export default function BookInfo() {
   const { id } = useParams();
   const [bookData, setBookData] = useState<BookFullDetails>();
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     if (id) {
@@ -101,14 +102,16 @@ export default function BookInfo() {
               ${bookData?.price}
             </Typography>
             <Stack direction="row" alignItems="center" spacing={4}>
-              <Quantity />
+              <Quantity quantity={quantity} setQuantity={setQuantity} />
               <Chip
                 label={`${bookData?.stocks} Stocks available`}
                 color="primary"
                 variant="outlined"
               />
             </Stack>
-            <ActionButtons />
+            {bookData ? (
+              <ActionButtons book={bookData} quantity={quantity} />
+            ) : null}
             <Divider sx={{ marginBlock: ".6rem", opacity: ".5" }} />
             <Description description={bookData?.description} />
             <MoreDetails

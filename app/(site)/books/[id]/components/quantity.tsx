@@ -5,9 +5,13 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-export default function Quantity() {
-  const [quantity, setQuantity] = useState<number>(1);
-
+export default function Quantity({
+  setQuantity,
+  quantity,
+}: {
+  quantity: number;
+  setQuantity: React.Dispatch<React.SetStateAction<number>>;
+}) {
   return (
     <Stack direction="row" spacing={2} alignItems="center">
       <Typography pr={2}>Quantity: </Typography>
