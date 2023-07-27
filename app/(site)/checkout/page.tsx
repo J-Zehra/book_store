@@ -20,6 +20,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import {
+    emailState,
   firstNameState,
   nameState,
   selectedCartItems,
@@ -56,11 +57,12 @@ function getStepContent(step: number) {
 export default function CheckoutPage() {
   const [activeStep, setActiveStep] = useState(0);
   const name = useRecoilValue(firstNameState);
+  const email = useRecoilValue(emailState);
   const handleNext = () => {
     setActiveStep(activeStep + 1);
 
     if (activeStep === steps.length - 1) {
-      axios.post("/api/send", { name }).then((res) => {
+      axios.post("/api/send", { name, email }).then((res) => {
         console.log(res);
       });
     }

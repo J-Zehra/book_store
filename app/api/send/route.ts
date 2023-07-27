@@ -8,14 +8,15 @@ const resend = new Resend("re_83Xh2bRu_DMZW9U5ZaNquqtNwhdBqKLs3");
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { name } = body as {
+  const { name, email } = body as {
     name: string;
+    email: string;
   };
 
   try {
     const emailOptions: CreateEmailOptions = {
       from: "MemaBookstore <onboarding@resend.dev>",
-      to: ["jazencode@gmail.com"],
+      to: ["jazencode@gmail.com", email],
       subject: "Hello world",
       text: "Hello world",
       react: EmailTemplate({ name }),
